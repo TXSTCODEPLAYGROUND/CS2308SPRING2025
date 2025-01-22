@@ -20,5 +20,5 @@ This repository is **private**. Unauthorized sharing of this repository or any o
    - Once your work is complete, open a pull request for a review. 
    - Add me(keshavsbhandari) as a reviewer.
 
-4. **Excuting Projects**: 
+4. **Executing Projects**: 
    - If you are trying to run code inside CodeInClass folder, please take a look at run.sh command script
