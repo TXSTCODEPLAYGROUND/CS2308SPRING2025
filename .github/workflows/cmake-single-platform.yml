@@ -1,4 +1,4 @@
-name: CMake Build and Test
+name: Run Updated C++ Projects
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
     branches: [ "main" ]
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
@@ -18,21 +17,32 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Find and Run CMake Projects
+    - name: Get Changed Files
+      id: changed-files
       run: |
-        echo "Searching for C++ projects in chapter_codes..."
-        for run_script in $(find chapter_codes -type f -name 'run.sh'); do
-          project_dir=$(dirname "$run_script")
-          echo "----------------------------------------"
+        CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+        echo "Changed files: $CHANGED_FILES"
+
+        # Find the unique folders that contain run.sh within chapter_codes/
+        MODIFIED_DIRS=$(echo "$CHANGED_FILES" | grep 'chapter_codes/.*/.*/' | awk -F'/' '{print $1"/"$2"/"$3}' | sort -u)
+        echo "Modified project directories: $MODIFIED_DIRS"
+
+        # Save directories to be used in next steps
+        echo "$MODIFIED_DIRS" > modified_dirs.txt
+
+    - name: Run Projects with Changes
+      run: |
+        while IFS= read -r project_dir; do
           echo "Running build in: $project_dir"
-          echo "----------------------------------------"
-          
-          # Navigate to the project directory and execute run.sh
           cd "$project_dir"
-          chmod +x run.sh
-          ./run.sh
-          cd -
-        done
+          if [[ -f run.sh ]]; then
+            chmod +x run.sh
+            ./run.sh
+          else
+            echo "run.sh not found in $project_dir"
+          fi
+          cd - > /dev/null
+        done < modified_dirs.txt
 
     - name: Cleanup Build Directories
       run: |
