@@ -36,7 +36,7 @@ jobs:
         modified_dirs = set()
         for file in changed_files:
             parts = file.split('/')
-            if len(parts) >= 4 and parts[0] == 'chapter_codes':
+            if len(parts) >= 3 and (parts[0] == 'chapter_codes' or parts[0] == 'contributions'):
                 project_path = f"{parts[0]}/{parts[1]}/{parts[2]}"
                 modified_dirs.add(project_path)
 
