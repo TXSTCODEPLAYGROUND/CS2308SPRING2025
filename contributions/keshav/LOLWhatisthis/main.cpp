@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// This is a stupid piece of code, use it wisely
+
 // Function to convert ASCII values back to strings
 string decode(const int arr[], int size) {
     string result = "";
