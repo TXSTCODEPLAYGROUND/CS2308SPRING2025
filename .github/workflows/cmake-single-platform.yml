@@ -20,7 +20,7 @@ jobs:
     - name: Get Changed Files
       id: changed-files
       run: |
-        CHANGED_FILES=$(jq -r '.commits[].modified[]' <<<"${{ toJson(github.event) }}")
+        CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
         echo "Changed files: $CHANGED_FILES"
 
         # Find the unique folders that contain run.sh within chapter_codes/somefolder/
