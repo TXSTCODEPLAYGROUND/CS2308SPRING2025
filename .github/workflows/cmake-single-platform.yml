@@ -19,32 +19,56 @@ jobs:
       with:
         fetch-depth: 2  # Fetch enough history to perform git diff
 
-    - name: Get Changed Files
+    - name: Get Changed Files with Python
       id: changed-files
       run: |
-        CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-        echo "Changed files: $CHANGED_FILES"
+        python - <<EOF
+        import os
+        import subprocess
+        
+        # Get the list of changed files
+        changed_files = subprocess.run(
+            ["git", "diff", "--name-only", "HEAD^", "HEAD"],
+            capture_output=True, text=True).stdout.strip().split("\n")
 
-        # Find the unique folders that contain run.sh within chapter_codes/somefolder/
-        MODIFIED_DIRS=$(echo "$CHANGED_FILES" | grep 'chapter_codes/.*/.*/' | awk -F'/' '{print $1"/"$2"/"$3"/"$4}' | sort -u)
-        echo "Modified project directories: $MODIFIED_DIRS"
+        print("Changed files:", changed_files)
 
-        # Save directories to be used in next steps
-        echo "$MODIFIED_DIRS" > modified_dirs.txt
+        modified_dirs = set()
+        for file in changed_files:
+            parts = file.split('/')
+            if len(parts) >= 4 and parts[0] == 'chapter_codes':
+                project_path = f"{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}"
+                modified_dirs.add(project_path)
 
-    - name: Run Projects with Changes
+        if modified_dirs:
+            with open("modified_dirs.txt", "w") as f:
+                f.write("\n".join(modified_dirs))
+            print("Modified project directories:", modified_dirs)
+        else:
+            print("No relevant changes detected.")
+            exit(0)
+        EOF
+
+    - name: Run Projects with Changes using Python
       run: |
-        while IFS= read -r project_dir; do
-          echo "Running build in: $project_dir"
-          cd "$project_dir"
-          if [[ -f run.sh ]]; then
-            chmod +x run.sh
-            ./run.sh
-          else
-            echo "run.sh not found in $project_dir"
-          fi
-          cd - > /dev/null
-        done < modified_dirs.txt
+        python - <<EOF
+        import os
+
+        if not os.path.exists("modified_dirs.txt"):
+            print("No modified projects to process. Exiting...")
+            exit(0)
+
+        with open("modified_dirs.txt", "r") as f:
+            project_dirs = [line.strip() for line in f if line.strip()]
+
+        for project_dir in project_dirs:
+            print(f"Running build in: {project_dir}")
+            if os.path.isfile(f"{project_dir}/run.sh"):
+                os.system(f"chmod +x {project_dir}/run.sh")
+                os.system(f"bash {project_dir}/run.sh")
+            else:
+                print(f"run.sh not found in {project_dir}")
+        EOF
 
     - name: Cleanup Build Directories
       run: |
