@@ -16,6 +16,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # Fetch enough history to perform git diff
 
     - name: Get Changed Files
       id: changed-files
