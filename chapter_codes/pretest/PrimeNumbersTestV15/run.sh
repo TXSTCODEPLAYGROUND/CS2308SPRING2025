@@ -33,7 +33,7 @@ if [[ -n "$GITHUB_ACTIONS" ]]; then
     DYNAMIC_PATH="${PWD#*$STATIC_PATH}"
     BUILD_PATH="$STATIC_PATH$DYNAMIC_PATH/cmake-build-debug"
 else
-    BUILD_PATH="."
+    BUILD_PATH="cmake-build-debug/"
 fi
 
 # Determine OS and run the executable accordingly
