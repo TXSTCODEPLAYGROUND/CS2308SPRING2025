@@ -1,0 +1,40 @@
+name: CMake Build and Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Find and Run CMake Projects
+      run: |
+        echo "Searching for C++ projects in chapter_codes..."
+        for run_script in $(find chapter_codes -type f -name 'run.sh'); do
+          project_dir=$(dirname "$run_script")
+          echo "----------------------------------------"
+          echo "Running build in: $project_dir"
+          echo "----------------------------------------"
+          
+          # Navigate to the project directory and execute run.sh
+          cd "$project_dir"
+          chmod +x run.sh
+          ./run.sh
+          cd -
+        done
+
+    - name: Cleanup Build Directories
+      run: |
+        echo "Cleaning up build directories..."
+        find chapter_codes -type d -name 'cmake-build-debug' -exec rm -rf {} +
