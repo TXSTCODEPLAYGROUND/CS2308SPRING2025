@@ -38,7 +38,9 @@ fi
 
 # Determine OS and run the executable accordingly
 OS="$(uname)"
-
+echo "Build path: $BUILD_PATH"
+echo "Files in build path:"
+ls -lah "$BUILD_PATH"
 if [[ "$OS" == "Linux" || "$OS" == "Darwin" ]]; then
     if [[ -f "$BUILD_PATH/$PROJECT_NAME" ]]; then
         "$BUILD_PATH/$PROJECT_NAME"
