@@ -26,7 +26,7 @@ jobs:
         echo "Changed files: $CHANGED_FILES"
 
         # Find the unique folders that contain run.sh within chapter_codes/somefolder/
-        MODIFIED_DIRS=$(echo "$CHANGED_FILES" | grep 'chapter_codes/somefolder/.*/.*/' | awk -F'/' '{print $1"/"$2"/"$3"/"$4}' | sort -u)
+        MODIFIED_DIRS=$(echo "$CHANGED_FILES" | grep 'chapter_codes/.*/.*/' | awk -F'/' '{print $1"/"$2"/"$3"/"$4}' | sort -u)
         echo "Modified project directories: $MODIFIED_DIRS"
 
         # Save directories to be used in next steps
