@@ -26,11 +26,14 @@ bool isRTPrime(int num) {
     return num == 0;
 }
 
-// can you add documentations here?
+/**
+ * @brief Checks if the given number is a right-truncatable prime by recursively checking if its tenth is a right-truncatable prime.
+ * @param num The integer to check.
+ * @return true if num is a right-truncatable prime, otherwise false.
+ */
 bool isRTPrimeRecursion(int num) {
     return isPrime(num) ? isRTPrimeRecursion(num/10):num==0;
 }
-
 
 /**
  * @brief Checks if the given number is a left-truncatable prime.
@@ -47,7 +50,6 @@ bool isLTPrime(int num) {
     }
     return num == 0;
 }
-
 
 /**
  * @brief Counts the number of digits in an integer.
