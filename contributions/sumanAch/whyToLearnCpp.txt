@@ -1,0 +1,41 @@
+Hey, I am talking to you, why are you learning C++?
+"Don't worry, just follow me and I will guide you to C++"
+----------------------------------------------------------------
+First of all, let's learn what programming is?
+=> Programming is a process of writing a program(piece of code that tells the computer(CPU) what to do,
+ like you are hovering your cursor over this text,a piece of code is written for that while building an
+OS)
+----------------------------------------------------------------
+Now we got an idea about programming, let's dive into C++
+=>C++ is just a language, like there are languages like German, French, English etc. for human to communicate
+So, if we want to communicate with the computer, we need a language and C++ is one of them, and there
+are many other languages
+----------------------------------------------------------------
+I am trying to be oversmart right?,so let's return to our main topic"WHY C++?"
+1.C++ is a compiled language, which is really fast and efficient
+Compiled Language = whose source code is translated into machine code(0s,1s) by a compiler all at once and can be directly 
+executed by the CPU(that's one of the reason why it is fast)
+2.It helps to understand how computers work at a lower level(e.g memory management,pointers)etc(work a bit harder from your side too 
+and search it in DeepSeek(no OPENAi was harmed))
+----------------------------------------------------------------
+#But why are you learning it?
+->So, if you want to work as an AI/ML dev (python is mostly use but C++ can help you optimize and deploy ML models efficiently)
+->You want to work in an industry where speed actually matters like high frequency trading,rocket launches,embedded systems, 
+IOT and robotics and other various field, you should definitely learn C++.
+-> It makes easier for you to switch into any to other languages.
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
