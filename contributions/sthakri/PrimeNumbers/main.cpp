@@ -8,7 +8,7 @@ using namespace std;
  * @param num The integer to check.
  * @return true if num is prime, otherwise false.
  */
-bool checkPrime(int num) {
+bool isPrime(int num) {
     if (num <= 2 || num %2 == 0) return num == 2;
     for (int i = 3; i * i <= static_cast<int>(sqrt(num)); i += 2) { // Skip even numbers, check divisibility
         if (num % i == 0) return false;
@@ -22,13 +22,13 @@ bool checkPrime(int num) {
  * @return true if num is a right-truncatable prime, otherwise false.
  */
 bool isRTPrime(int num) {
-    while (checkPrime(num)) num /= 10; // Remove the last digit
+    while (isPrime(num)) num /= 10; // Remove the last digit
     return num == 0;
 }
 
 // can you add documentations here?
 bool isRTPrimeRecursion(int num) {
-    return checkPrime(num) ? isRTPrimeRecursion(num / 10) : num == 0;
+    return isPrime(num) ? isRTPrimeRecursion(num / 10) : num == 0;
 }
 
 
@@ -41,7 +41,7 @@ bool isLTPrime(int num) {
     // TASK: Do you think this is correct?
     int divisor = 1;
     while (divisor <= num) divisor *= 10;
-    while (checkPrime(num)) {
+    while (isPrime(num)) {
         divisor /= 10;
         num %= divisor; // Remove the first digit
     }
@@ -73,7 +73,7 @@ bool isLTPrimeWithLog(int num) {
     // TASK: Can you implement a copy of this with recursion, isLTPrimeWithLogRecursion?
     int digitCount = log10(num) + 1;
     while (digitCount > 0) {
-        if (!checkPrime(num)) return false;
+        if (!isPrime(num)) return false;
         num %= static_cast<int>(pow(10, digitCount - 1)); // Remove the leftmost digit
         digitCount--;
     }
@@ -87,7 +87,7 @@ bool isLTPrimeWithLog(int num) {
  */
 int countReciprocalRepeat(int primeNum) {
     // TASK! Pen and paper required! Can you tell how this is working/not-working?
-    if (!checkPrime(primeNum)) return -1; // Return -1 for non-prime input
+    if (!isPrime(primeNum)) return -1; // Return -1 for non-prime input
     int remainder = 1, position = 0;
 
     for (int i = 0; i < primeNum; ++i) {
@@ -105,7 +105,7 @@ int countReciprocalRepeat(int primeNum) {
  * @param precisionSize The number of decimal places to print.
  */
 void printReciprocalWithPrecision(int num, int precisionSize) {
-    if (!checkPrime(num)) {
+    if (!isPrime(num)) {
         cout << "Not a prime number." << endl;
         return;
     }
@@ -121,7 +121,7 @@ void printReciprocalWithPrecision(int num, int precisionSize) {
 
 int main() {
     int testNum = 17;
-    cout << "checkPrime(" << testNum << ") = " << checkPrime(testNum) << endl;
+    cout << "isPrime(" << testNum << ") = " << isPrime(testNum) << endl;
     cout << "isRTPrime(" << testNum << ") = " << isRTPrime(testNum) << endl;
     cout << "isLTPrime(" << testNum << ") = " << isLTPrime(testNum) << endl;
     cout << "isLTPrimeWithLog(" << testNum << ") = " << isLTPrimeWithLog(testNum) << endl;
