@@ -50,6 +50,19 @@ void modifyByPointer(int *x) {
     std::cout << "Inside modifyByPointer: x = " << *x << "\n";
 }
 
+/**
+ * @brief Function demonstrating how to modify arrays
+ *
+ * Modifies array using a pointer, which affects the original value
+ *
+ * @param arr pointer to the array
+ */
+void modifyArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        arr[i] += 10; // Modifies the original array
+    }
+}
+
 int main() {
     int a = 5, b = 5, c = 5;
 
@@ -65,7 +78,20 @@ int main() {
 
     // Call by Pointer (Original 'c' is modified)
     modifyByPointer(&c);
-    std::cout << "After modifyByPointer: c = " << c << " (Changed)\n";
+    std::cout << "After modifyByPointer: c = " << c << " (Changed)\n\n"; //added new line here to make the output look cleaner
+
+    int arr[3] = {a, b, c};         //Creating an array arr consisting of a,b,c
+    std::cout << "Unmodified array: ";         //After modifying by reference and pointers, values of a,b,c are 5,15,15 respectively.
+    for(int i = 0; i < 3; i++){
+        std::cout << arr[i] << ",";
+    }
+    std::cout << "\b \n";                                // "\b " to remove the last comma and replace with a space, and move to a new line with "\n"
+    modifyArray(arr, 3);                            //After function is called and the array is modified in the function
+    std::cout << "Modified array: ";                    //it also modifies the actual array as arrays are always passed by pointers
+    for(int i = 0; i < 3; i++){
+        std::cout << arr[i] << ",";
+    }
+    std::cout << "\b ";                                 // "\b " to remove the last comma and replace with a space
 
     return 0;
 }
