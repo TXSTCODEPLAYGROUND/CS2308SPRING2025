@@ -4,6 +4,14 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 int main() {
 
+    // Define a lambda function
+    auto add = [](int x, int y) {
+        return x + y;
+    };
+
+    // Call the lambda function
+    int result = add(3, 5);
+    std::cout << "Result: " << result << std::endl;  // Output: Result: 8
 
     return 0;
 }
