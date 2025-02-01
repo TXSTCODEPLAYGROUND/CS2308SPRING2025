@@ -1,0 +1,5 @@
+With this Contribution I explored how to change specific default arguments in a function. What I discovered is that all arguments you wish to remain the default must be in the right hand side. In other words you can’t skip your first argument and then attempt to change the second argument. C++ expects them in order, but is fine if the trailing arguments are left blank and default.
+
+The ways I found to get around this are two fold, most generally you can simply type in the default value for the arguments you don’t want to change and then type the value of the arguments you’d like to change.
+
+However, additionally, in the case of having arguments of a different data type. You can overload the function and create a version with the same arguments in a different order. Thus allowing you to type in only the variable you’d like to change. This is pretty limited in the scope of scenarios where it is possible and useful. Having more than two arguments makes it hard to use, and having arguments of the same data type makes it impossible I believe. 
