@@ -66,6 +66,11 @@ There are two ways to run the code examples based on the editor you're using:
    ```bash
    chmod +x run.sh
    ```
+**C. Alternatively**
+1. You can open any projects inside chapter_codes/unitxx/SomeProjectName independently in CLION
+2. Example: chapter_codes/unit01/LambdaFunctions can be open in a new CLION Window
+3. Goto File->Reload Cmake Files
+4. Execute the program by running play button
 
 ---
 
