@@ -24,4 +24,11 @@ bool isRTPrime(int num);
  */
 bool isLTPrime(int num);
 
+/**
+ * Checks if a number is an Emirp prime
+ * @param num The number to check
+ * @return true if the number is an Emirp prime, false otherwise
+ */
+bool isEmirp(int num);
+
 #endif

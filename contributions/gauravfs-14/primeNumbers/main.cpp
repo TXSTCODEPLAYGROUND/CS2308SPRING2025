@@ -26,5 +26,11 @@ int main()
     else
         cout << number << " is not a left-truncated prime." << endl;
 
+    // Check if the number is an Emirp prime
+    if (isEmirp(number))
+        cout << number << " is an Emirp prime." << endl;
+    else
+        cout << number << " is not an Emirp prime." << endl;
+
     return 0;
 }

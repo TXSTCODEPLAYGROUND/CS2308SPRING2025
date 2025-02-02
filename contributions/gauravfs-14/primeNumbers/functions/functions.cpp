@@ -61,3 +61,27 @@ bool isLTPrime(int num)
     }
     return true;
 }
+
+/**
+ * @brief Checks if a number is an Emirp prime.
+ *
+ * This function determines whether a given integer is an Emirp prime number.
+ * An Emirp prime is a prime number that results in a different prime number when its digits are reversed.
+ *
+ * @param num The integer to check for Emirp primality.
+ * @return true if the number is an Emirp prime, false otherwise.
+ */
+bool isEmirp(int num)
+{
+    if (!isPrime(num))
+        return false;
+
+    int reversedNum = 0, originalNum = num;
+    while (num > 0)
+    {
+        reversedNum = reversedNum * 10 + num % 10;
+        num /= 10;
+    }
+
+    return reversedNum != originalNum && isPrime(reversedNum);
+}
