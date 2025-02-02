@@ -85,3 +85,30 @@ bool isEmirp(int num)
 
     return reversedNum != originalNum && isPrime(reversedNum);
 }
+
+/**
+ * @brief Checks if a number is a circular prime.
+ *
+ * This function determines whether a given integer is a circular prime number.
+ * A circular prime is a prime number that remains prime under all rotations of its digits.
+ *
+ * @param num The integer to check for circular primality.
+ * @return true if the number is a circular prime, false otherwise.
+ */
+bool isCircularPrime(int num)
+{
+    int digits = log10(num) + 1;
+    int power = pow(10, digits - 1);
+    int rotatedNum = num;
+
+    for (int i = 0; i < digits; ++i)
+    {
+        if (!isPrime(rotatedNum))
+            return false;
+
+        int lastDigit = rotatedNum % 10;
+        rotatedNum = (rotatedNum / 10) + (lastDigit * power);
+    }
+
+    return true;
+}

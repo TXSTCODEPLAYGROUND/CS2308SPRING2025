@@ -32,5 +32,11 @@ int main()
     else
         cout << number << " is not an Emirp prime." << endl;
 
+    // Check if the number is a circular prime
+    if (isCircularPrime(number))
+        cout << number << " is a circular prime." << endl;
+    else
+        cout << number << " is not a circular prime." << endl;
+
     return 0;
 }

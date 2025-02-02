@@ -31,4 +31,11 @@ bool isLTPrime(int num);
  */
 bool isEmirp(int num);
 
+/**
+ * Checks if a number is a circular prime
+ * @param num The number to check
+ * @return true if the number is a circular prime, false otherwise
+ */
+bool isCircularPrime(int num);
+
 #endif
