@@ -2,9 +2,8 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-int main() {
+
+std::vector<std::string> deckCreation() {
     std::vector<std::string> cards;
     std::vector<std::string> suits = {"Hearts", "Diamonds", "Spades", "Clubs"};
     std::vector<std::string> numbers = {"2", "3", "4", "5", "6", "7", "8",
@@ -15,18 +14,33 @@ int main() {
             cards.push_back(numbers.at(j) + " of " + suits.at(i));
         }
     }
+    return cards;
+}
 
-    // Copy/paste random number generator
+void shuffle(std::vector<std::string>& cards) {
     std::random_device rd;
     std::mt19937 g(rd());
 
     std::shuffle(cards.begin(), cards.end(), g);
+}
 
+void printDeck(std::vector<std::string>& cards) {
     for (const std::string& card : cards) {
         std::cout << card << ", ";
     }
-
     std::cout << std::endl;
+}
+
+
+// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+int main() {
+
+    std::vector<std::string> cards = deckCreation();
+
+    shuffle(cards);
+
+    printDeck(cards);
 
     return 0;
 }
