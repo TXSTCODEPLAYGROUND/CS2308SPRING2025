@@ -2,7 +2,6 @@
 #include <cmath>
 #include <vector>
 using namespace std;
-
 /**
  * @brief Checks if a given number is prime.
  * @param num The integer to check.
