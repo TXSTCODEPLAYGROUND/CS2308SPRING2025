@@ -19,23 +19,19 @@ vector<string>createDeck(){
 }
 
 void shuffleDeck(vector<string> &deck){
-  int random;
-  srand(time(0));
-  for(int i=0; i<deck.size(); i++){
-      random = rand() % deck.size();
-      swap(deck[i], deck[random]);
-  }
+    int random;
+    srand(time(0));
+    for(int i=0; i<deck.size(); i++){
+        random = rand() % deck.size();
+        swap(deck[i], deck[random]);
+    }
 }
 
 int main(){
-  vector<string> deck = createDeck();
-  shuffleDeck(deck);
-  for(string card : deck){
-    cout << card << endl;
-  }
-  return 0;
+    vector<string> deck = createDeck();
+    shuffleDeck(deck);
+    for(string card : deck){
+        cout << card << endl;
+    }
+    return 0;
 }
-
-
-
-
