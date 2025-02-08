@@ -11,7 +11,6 @@
 
 
 std::vector<std::string> deckInitializer() {
-    int n;
     std::string element;
     std::vector<std::string> deck;
     std::vector<std::string> suits ={"c", "d", "h", "s"};
@@ -22,7 +21,7 @@ std::vector<std::string> deckInitializer() {
             deck.push_back(element);
         }
     }
-    for (n=0; n<deck.size(); n++) {
+    for (int n=0; n<deck.size(); n++) {
         std::cout<<deck[n]<<" ";
         if ((n+1)%13==0) {
             std::cout<<std::endl;
