@@ -8,9 +8,7 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
-#include <vector>
-#include <vector>
-#include <vector>
+
 
 std::vector<std::string> deckInitializer() {
     int n;
@@ -54,7 +52,7 @@ std::vector<std::string> handsDealt(int numPlayers, std::vector<std::string>deck
     return deck;
 }
 
-void communityCard(std::vector<std::string> deck) {
+int communityCard(std::vector<std::string> deck) {
     int randomNumber;
     if (deck.size()<=5) {
         std::cout<<"community cards: ";
@@ -77,9 +75,12 @@ void communityCard(std::vector<std::string> deck) {
 }
 
 int main() {
+    int numPlayers;
+    std::cout<<"input number of players: ";
+    std::cin>>numPlayers;
     std::vector<std::string> deck = deckInitializer();
-    std::vector<std::string> remainingDeck = handsDealt(23,deck);
-    communityCard(remainingDeck);
+    std::vector<std::string> remainingDeck = handsDealt(numPlayers,deck);
+    std::cout<<communityCard(remainingDeck);
 }
 
 

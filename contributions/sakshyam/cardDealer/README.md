@@ -1,0 +1,1 @@
+This folder contains my take on the deck creation, shuffling, and distributing program. Please feel to go through it and provide feedback.
