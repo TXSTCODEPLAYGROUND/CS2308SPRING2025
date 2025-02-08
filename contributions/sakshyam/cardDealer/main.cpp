@@ -52,7 +52,7 @@ std::vector<std::string> handsDealt(int numPlayers, std::vector<std::string>deck
     return deck;
 }
 
-int communityCard(std::vector<std::string> deck) {
+void communityCard(std::vector<std::string> deck) {
     int randomNumber;
     if (deck.size()<=5) {
         std::cout<<"community cards: ";
@@ -80,7 +80,7 @@ int main() {
     std::cin>>numPlayers;
     std::vector<std::string> deck = deckInitializer();
     std::vector<std::string> remainingDeck = handsDealt(numPlayers,deck);
-    std::cout<<communityCard(remainingDeck);
+    communityCard(remainingDeck);
 }
 
 
