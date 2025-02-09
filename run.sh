@@ -42,19 +42,16 @@ PROJECT_NAME=$(basename "$PROJECT_DIR")
 echo "Project Name: $PROJECT_NAME"
 
 # Define build path based on environment
-if [[ -n "$GITHUB_ACTIONS" ]]; then
-    STATIC_PATH="/home/runner/work/CS2308SPRING2025/CS2308SPRING2025"
-    DYNAMIC_PATH="${PROJECT_DIR#*$STATIC_PATH}"
-    BUILD_PATH="$STATIC_PATH$DYNAMIC_PATH/cmake-build-debug"
-else
-    BUILD_PATH="$PROJECT_DIR/cmake-build-debug/"
-fi
+BUILD_PATH="$PROJECT_DIR/cmake-build-debug/"
 
 # Determine OS and run the executable accordingly
 OS="$(uname)"
 echo "Build path: $BUILD_PATH"
 echo "Files in build path:"
 ls -lah "$BUILD_PATH"
+echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░      OUTPUT      ░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
 if [[ "$OS" == "Linux" || "$OS" == "Darwin" ]]; then
     if [[ -f "$BUILD_PATH/$PROJECT_NAME" ]]; then
         "$BUILD_PATH/$PROJECT_NAME"
@@ -73,3 +70,4 @@ else
     echo "Unsupported OS: $OS"
     exit 1
 fi
+echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"

@@ -1,83 +1,97 @@
-name: Run Updated C++ Projects
+name: C++ Build and Test
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-env:
-  BUILD_TYPE: Release
+on: [push]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 2  # Fetch enough history to perform git diff
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Get Changed Files with Python
-      id: changed-files
-      run: |
-        python - <<EOF
-        import os
-        import subprocess
-        
-        # Get the list of changed files
-        changed_files = subprocess.run(
-            ["git", "diff", "--name-only", "HEAD^", "HEAD"],
-            capture_output=True, text=True).stdout.strip().split("\n")
+      - name: Install CMake 3.30.0
+        uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 3.30.0
 
-        print("Changed files:", changed_files)
+      - name: Install other dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++
 
-        modified_dirs = set()
-        for file in changed_files:
-            parts = file.split('/')
-            if len(parts) >= 3 and (parts[0] == 'chapter_codes' or parts[0] == 'contributions'):
-                project_path = f"{parts[0]}/{parts[1]}/{parts[2]}"
-                modified_dirs.add(project_path)
+      - name: Find, process, and compile modified directories with .cpp files
+        run: |
+          # Print ASCII art
+          echo " ░▒▓██████▓▒░ ░▒▓███████▓▒░      ░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
+          echo "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░                    ░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+          echo "░▒▓█▓▒░      ░▒▓█▓▒░                    ░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+          echo "░▒▓█▓▒░       ░▒▓██████▓▒░        ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░  "
+          echo "░▒▓█▓▒░             ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+          echo "░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+          echo " ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
 
-        if modified_dirs:
-            with open("modified_dirs.txt", "w") as f:
-                f.write("\n".join(modified_dirs))
-            print("Modified project directories:", modified_dirs)
-        else:
-            print("No relevant changes detected.")
-            exit(0)
-        EOF
+          # Initialize variables
+          OUTPUT_MESSAGE=""
+          ERROR_MESSAGE=""
 
-    - name: Run Projects with Changes using Python
-      run: |
-        python - <<EOF
-        import os
+          # Find all directories with changes that contain at least one .cpp file
+          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD '*.cpp' | xargs -I {} dirname {} | sort | uniq)
 
-        if not os.path.exists("modified_dirs.txt"):
-            print("No modified projects to process. Exiting...")
-            exit(0)
+          # Print header
+          echo "Modified directories with .cpp files detected:"
+          echo "$CHANGED_DIRS"
 
-        with open("modified_dirs.txt", "r") as f:
-            project_dirs = [line.strip() for line in f if line.strip()]
+          # Loop through each directory and check for CMakeLists.txt
+          for DIR in $CHANGED_DIRS; do
+            if [[ -f "$DIR/CMakeLists.txt" ]]; then
+              echo "Compiling project in directory: $DIR"
 
-        for project_dir in project_dirs:
-            print(f"Running build in: {project_dir}")
-            if os.path.isfile(f"{project_dir}/CMakeLists.txt"):
-                os.system("chmod +x run.sh")
-                os.system(f"bash run.sh {project_dir}")
-                
-                #original_dir = os.getcwd()  # Save the current directory
-                #os.chdir(project_dir)  # Change to project directory
-                #os.system("chmod +x run.sh")
-                #os.system("bash run.sh")
-                #os.chdir(original_dir)  # Return to the original directory
-            else:
-                print(f"CMAKELists.txt not found in {project_dir}")
-                #print(f"run.sh not found in {project_dir}")
-        EOF
+              # Remove existing build directory if it exists
+              [[ -d "$DIR/cmake-build-debug" ]] && rm -rf "$DIR/cmake-build-debug"
 
-    - name: Cleanup Build Directories
-      run: |
-        echo "Cleaning up build directories..."
-        find chapter_codes -type d -name 'cmake-build-debug' -exec rm -rf {} +
+              # Create build directory and compile the project
+              mkdir -p "$DIR/cmake-build-debug"
+              cmake -B "$DIR/cmake-build-debug" -S "$DIR"
+              cmake --build "$DIR/cmake-build-debug"
+
+              OUTPUT_MESSAGE+="----------------------------------------\n"
+              OUTPUT_MESSAGE+="------------COMPILATION DONE------------\n"
+              OUTPUT_MESSAGE+="----------------------------------------\n"
+
+              # Get the project folder name
+              PROJECT_NAME=$(basename "$DIR")
+              OUTPUT_MESSAGE+="Project Name: $PROJECT_NAME\n"
+
+              # Define build path
+              BUILD_PATH="$DIR/cmake-build-debug"
+
+              # Print build path and files
+              OUTPUT_MESSAGE+="Build path: $BUILD_PATH\n"
+              OUTPUT_MESSAGE+="Files in build path:\n"
+              OUTPUT_MESSAGE+="$(ls -lah "$BUILD_PATH")\n"
+
+              # Run the executable if it exists
+              if [[ -f "$BUILD_PATH/$PROJECT_NAME" ]]; then
+                OUTPUT_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
+                OUTPUT_MESSAGE+="Running executable: $BUILD_PATH/$PROJECT_NAME\n"
+                "$BUILD_PATH/$PROJECT_NAME"
+                OUTPUT_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
+              else
+                ERROR_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
+                ERROR_MESSAGE+="Error: Executable not found in $BUILD_PATH\n"
+                ERROR_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
+              fi
+            else
+              ERROR_MESSAGE+="Project Directory: \"$DIR\" does not contain CMakeLists.txt\n"
+            fi
+          done
+
+          # Print final output
+          echo -e "$OUTPUT_MESSAGE"
+
+          # Print error messages
+          if [[ -n "$ERROR_MESSAGE" ]]; then
+            echo "----------------------------------------"
+            echo "The following projects must include a CMakeLists.txt file:"
+            echo -e "$ERROR_MESSAGE"
+          fi
