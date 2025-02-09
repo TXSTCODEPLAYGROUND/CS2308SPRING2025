@@ -14,6 +14,19 @@ if [[ ! -d "$PROJECT_DIR" ]]; then
     exit 1
 fi
 
+# Check if the directory contains at least one .cpp file
+CPP_FILES=$(find "$PROJECT_DIR" -maxdepth 1 -type f -name "*.cpp")
+if [[ -z "$CPP_FILES" ]]; then
+    echo "Error: Directory $PROJECT_DIR does not contain any .cpp files."
+    exit 1
+fi
+
+# Check if the directory contains a CMakeLists.txt file
+if [[ ! -f "$PROJECT_DIR/CMakeLists.txt" ]]; then
+    echo "Error: Directory $PROJECT_DIR does not contain a CMakeLists.txt file."
+    exit 1
+fi
+
 # Only if you are using Visual Studio Code (if you are using CLion don't worry about this file)
 # You might need to change the executable path based on the location of the project executable
 
