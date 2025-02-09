@@ -63,16 +63,18 @@ jobs:
 
         for project_dir in project_dirs:
             print(f"Running build in: {project_dir}")
-            if os.path.isfile(f"{project_dir}/run.sh"):
-                original_dir = os.getcwd()  # Save the current directory
-                os.chdir(project_dir)  # Change to project directory
+            if os.path.isfile(f"{project_dir}/CMakeLists.txt"):
                 os.system("chmod +x run.sh")
-                os.system("bash run.sh")
-                os.chdir(original_dir)  # Return to the original directory
-                #os.system(f"chmod +x {project_dir}/run.sh")
-                #os.system(f"bash {project_dir}/run.sh")
+                os.system(f"bash run.sh {project_dir}")
+                
+                #original_dir = os.getcwd()  # Save the current directory
+                #os.chdir(project_dir)  # Change to project directory
+                #os.system("chmod +x run.sh")
+                #os.system("bash run.sh")
+                #os.chdir(original_dir)  # Return to the original directory
             else:
-                print(f"run.sh not found in {project_dir}")
+                print(f"CMAKELists.txt not found in {project_dir}")
+                #print(f"run.sh not found in {project_dir}")
         EOF
 
     - name: Cleanup Build Directories
