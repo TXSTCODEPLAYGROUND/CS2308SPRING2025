@@ -22,15 +22,28 @@ This repository is **private**. Unauthorized sharing of this repository or any o
     * Once your work is complete, open a pull request for a review.
     * Add me(keshavsbhandari) as a reviewer.
 4. **Executing Projects**:
-    * You can compile and execute the projects using CLION 
-    * Or, you can use `run.sh` commands from root-directory to compile and execute the projects with: 
-    `bash run.sh path\to\your\project` or,
-    `sh run.sh path\to\your\project` or,
-    `.\run.sh path\to\your\project` 
-    e.g., if you want compile and run
-    `chapter_codes/unit01/LambdaFunctions` 
-    you should execute :
-    `sh run.sh chapter_codes/unit01/LambdaFunctions`
+    * You can compile and execute the projects using CLION or VSCode using Run(Play Icon) button
+    * Or, you can use terminal to execute `run.sh` commands from root-directory to compile and execute the projects with:
+      ```bash
+      bash run.sh path\to\your\project
+      ``` 
+      or,
+      ```bash
+      sh run.sh path\to\your\project
+      ```
+      or,
+      ```bash
+      .\run.sh path\to\your\project
+      ```
+      e.g., if you want compile and run
+      ```
+      chapter_codes/unit01/LambdaFunctions
+      ```
+      you should execute:
+
+      ```bash
+      sh run.sh chapter_codes/unit01/LambdaFunctions
+      ```
 Here's a **basic workflow** for students to contribute code to the GitHub project, broken down into clear steps:
 
 ---
@@ -58,28 +71,36 @@ Follow these steps to set up the project locally:
 
 There are two ways to run the code examples based on the editor you're using:
 
-**A. Using CLion (Recommended for C++ users):**
-1. Open **CLion** and select **"Open Project"**, then navigate to the cloned project folder.
+**A. Using CLion or VSCode (CLion Recommended for C++ users):**
+1. Open **CLion or VSCode** and select **"Open Project"**, then navigate to the cloned project folder.
 2. Locate the specific code example or program you want to run.
-3. Click the **Run** button in CLion to execute the selected program.
-
-**B. Using VS Code (Alternative Approach):**
-1. Open the project folder in **Visual Studio Code**.
-2. Navigate to the specific example folder.
+3. Click the **Run** button in **CLion or VSCode** to execute the selected program.
+  **CLion Run Example**
+      
+      1. You can open any projects inside chapter_codes/unitxx/SomeProjectName independently in CLION
+      2. Example: chapter_codes/unit01/LambdaFunctions can be open in a new CLION Window
+      3. Goto File->Reload Cmake Files
+      4. Execute the program by running play button
+   
+**B. Using Command Line (Alternative Approach):**
+1. Open **CS2308SPRING2025** as root-directory in **Visual Studio Code or CLION, and open the terminal**.
+2. Now follow **Executing Projects** guidelines above
 3. Use the `run.sh` script to execute the program by running:
    ```bash
-   ./run.sh
+   sh run.sh path/to/project/dir
+   ```
+   or,
+   ```bash
+   bash run.sh path/to/project/dir
+   ```
+   or,
+   ```bash
+   ./run.sh path/to/project/dir
    ```
    Ensure the script has execute permissions. If not, grant it using:
    ```bash
    chmod +x run.sh
    ```
-**C. Alternatively**
-1. You can open any projects inside chapter_codes/unitxx/SomeProjectName independently in CLION
-2. Example: chapter_codes/unit01/LambdaFunctions can be open in a new CLION Window
-3. Goto File->Reload Cmake Files
-4. Execute the program by running play button
-
 ---
 
 ### 3. Contribution Guidelines

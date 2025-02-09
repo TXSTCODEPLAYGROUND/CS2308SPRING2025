@@ -1,3 +1,9 @@
+# Ignore all run.sh files
+**/run.sh
+
+# Allow run.sh in the root directory
+!/run.sh
+
 # Some hiddens
 .DS_Store
 .idea
