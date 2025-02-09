@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Check if project directory is provided
+if [[ -z "$1" ]]; then
+    echo "Usage: $0 <path_to_project_dir>"
+    exit 1
+fi
+
+PROJECT_DIR="$1"
+
+# Check if the provided directory exists
+if [[ ! -d "$PROJECT_DIR" ]]; then
+    echo "Error: Directory $PROJECT_DIR does not exist."
+    exit 1
+fi
+
 # Only if you are using Visual Studio Code (if you are using CLion don't worry about this file)
 # You might need to change the executable path based on the location of the project executable
 
@@ -12,28 +26,28 @@ echo "░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░     
 echo " ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
 
 # Remove existing build directory if it exists
-[[ -d ./cmake-build-debug ]] && rm -rf ./cmake-build-debug
+[[ -d "$PROJECT_DIR/cmake-build-debug" ]] && rm -rf "$PROJECT_DIR/cmake-build-debug"
 
 # Create build directory and compile the project
-mkdir -p ./cmake-build-debug
-cmake -B ./cmake-build-debug
-cmake --build ./cmake-build-debug
+mkdir -p "$PROJECT_DIR/cmake-build-debug"
+cmake -B "$PROJECT_DIR/cmake-build-debug" -S "$PROJECT_DIR"
+cmake --build "$PROJECT_DIR/cmake-build-debug"
 
 echo "----------------------------------------"
 echo "------------COMPILATION DONE------------"
 echo "----------------------------------------"
 
-# Get the parent folder name
-PROJECT_NAME=$(basename "$PWD")
+# Get the project folder name
+PROJECT_NAME=$(basename "$PROJECT_DIR")
 echo "Project Name: $PROJECT_NAME"
 
 # Define build path based on environment
 if [[ -n "$GITHUB_ACTIONS" ]]; then
     STATIC_PATH="/home/runner/work/CS2308SPRING2025/CS2308SPRING2025"
-    DYNAMIC_PATH="${PWD#*$STATIC_PATH}"
+    DYNAMIC_PATH="${PROJECT_DIR#*$STATIC_PATH}"
     BUILD_PATH="$STATIC_PATH$DYNAMIC_PATH/cmake-build-debug"
 else
-    BUILD_PATH="cmake-build-debug/"
+    BUILD_PATH="$PROJECT_DIR/cmake-build-debug/"
 fi
 
 # Determine OS and run the executable accordingly

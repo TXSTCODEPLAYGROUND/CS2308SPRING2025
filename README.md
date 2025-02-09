@@ -22,7 +22,15 @@ This repository is **private**. Unauthorized sharing of this repository or any o
     * Once your work is complete, open a pull request for a review.
     * Add me(keshavsbhandari) as a reviewer.
 4. **Executing Projects**:
-    * If you are trying to run programs inside `chapter_codes` folder, please take a look at run.sh command script
+    * You can compile and execute the projects using CLION 
+    * Or, you can use `run.sh` commands from root-directory to compile and execute the projects with: 
+    `bash run.sh path\to\your\project` or,
+    `sh run.sh path\to\your\project` or,
+    `.\run.sh path\to\your\project` 
+    e.g., if you want compile and run
+    `chapter_codes/unit01/LambdaFunctions` 
+    you should execute :
+    `sh run.sh chapter_codes/unit01/LambdaFunctions`
 Here's a **basic workflow** for students to contribute code to the GitHub project, broken down into clear steps:
 
 ---
