@@ -14,9 +14,15 @@ if [[ ! -d "$PROJECT_DIR" ]]; then
     exit 1
 fi
 
-# Print banner
+# Only if you are using Visual Studio Code (if you are using CLion don't worry about this file)
+# You might need to change the executable path based on the location of the project executable
+
 echo " ░▒▓██████▓▒░ ░▒▓███████▓▒░      ░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
 echo "░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░                    ░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+echo "░▒▓█▓▒░      ░▒▓█▓▒░                    ░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+echo "░▒▓█▓▒░       ░▒▓██████▓▒░        ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░  "
+echo "░▒▓█▓▒░             ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+echo "░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
 echo " ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
 
 # Remove existing build directory if it exists
@@ -38,13 +44,8 @@ echo "Project Name: $PROJECT_NAME"
 # Define build path based on environment
 if [[ -n "$GITHUB_ACTIONS" ]]; then
     STATIC_PATH="/home/runner/work/CS2308SPRING2025/CS2308SPRING2025"
-    if [[ "$PROJECT_DIR" == "$STATIC_PATH"* ]]; then
-        DYNAMIC_PATH="${PROJECT_DIR#$STATIC_PATH}"
-        BUILD_PATH="$STATIC_PATH$DYNAMIC_PATH/cmake-build-debug"
-    else
-        echo "Error: Project directory does not match expected static path in GitHub Actions."
-        exit 1
-    fi
+    DYNAMIC_PATH="${PROJECT_DIR#*$STATIC_PATH}"
+    BUILD_PATH="$STATIC_PATH$DYNAMIC_PATH/cmake-build-debug"
 else
     BUILD_PATH="$PROJECT_DIR/cmake-build-debug/"
 fi
