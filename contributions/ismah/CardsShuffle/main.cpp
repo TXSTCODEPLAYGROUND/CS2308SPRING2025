@@ -18,6 +18,12 @@ std::vector<std::string> deckCreation() {
 }
 
 void shuffle(std::vector<std::string>& cards) {
+
+    /* Use random_device rather than srand to get better randomness when shuffling.
+     * random_device generates truly random numbers from hardware while srand is
+     * a pseudo random number generator with predictable patterns.
+     */
+
     std::random_device rd;
     std::mt19937 g(rd());
 
