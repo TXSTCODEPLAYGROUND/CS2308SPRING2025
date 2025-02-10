@@ -7,6 +7,7 @@ using namespace std;
  * @brief Checks if a given number is prime.
  * @param num The integer to check.
  * @return true if num is prime, otherwise false.
+ * 
  */
 bool isPrime(int num) {
     if (num <= 2 || num %2 == 0) return num == 2;
