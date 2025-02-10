@@ -4,6 +4,8 @@
 
 #ifndef SORTING_CARDS_H
 #define SORTING_CARDS_H
+#include <vector>
+#include <string>
 using namespace std;
 
 struct Card{
