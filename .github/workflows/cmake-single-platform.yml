@@ -19,7 +19,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y g++
 
-      - name: Find, process, and compile modified directories with .cpp files
+      - name: Find, print, and build modified CMake projects
         run: |
           # Print ASCII art
           echo " ░▒▓██████▓▒░ ░▒▓███████▓▒░      ░▒▓███████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
@@ -30,68 +30,53 @@ jobs:
           echo "░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
           echo " ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
 
-          # Initialize variables
-          OUTPUT_MESSAGE=""
-          ERROR_MESSAGE=""
-
-          # Find all directories with changes that contain at least one .cpp file
-          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD '*.cpp' | xargs -I {} dirname {} | sort | uniq)
+          # Find all directories containing CMakeLists.txt
+          PROJECT_DIRS=$(find . -name CMakeLists.txt -exec dirname {} \;)
 
           # Print header
-          echo "Modified directories with .cpp files detected:"
-          echo "$CHANGED_DIRS"
+          echo "Modified directories with changes detected:"
 
-          # Loop through each directory and check for CMakeLists.txt
-          for DIR in $CHANGED_DIRS; do
-            if [[ -f "$DIR/CMakeLists.txt" ]]; then
-              echo "Compiling project in directory: $DIR"
+          # Loop through each directory and check for changes
+          for PROJECT_DIR in $PROJECT_DIRS; do
+            # Check if there are any changes in the directory
+            if ! git diff --quiet HEAD^ HEAD -- "$PROJECT_DIR"; then
+              echo "- $PROJECT_DIR"
 
               # Remove existing build directory if it exists
-              [[ -d "$DIR/cmake-build-debug" ]] && rm -rf "$DIR/cmake-build-debug"
+              [[ -d "$PROJECT_DIR/cmake-build-debug" ]] && rm -rf "$PROJECT_DIR/cmake-build-debug"
 
               # Create build directory and compile the project
-              mkdir -p "$DIR/cmake-build-debug"
-              cmake -B "$DIR/cmake-build-debug" -S "$DIR"
-              cmake --build "$DIR/cmake-build-debug"
+              mkdir -p "$PROJECT_DIR/cmake-build-debug"
+              cmake -B "$PROJECT_DIR/cmake-build-debug" -S "$PROJECT_DIR"
+              cmake --build "$PROJECT_DIR/cmake-build-debug"
 
-              OUTPUT_MESSAGE+="----------------------------------------\n"
-              OUTPUT_MESSAGE+="------------COMPILATION DONE------------\n"
-              OUTPUT_MESSAGE+="----------------------------------------\n"
+              echo "----------------------------------------"
+              echo "------------COMPILATION DONE------------"
+              echo "----------------------------------------"
 
               # Get the project folder name
-              PROJECT_NAME=$(basename "$DIR")
-              OUTPUT_MESSAGE+="Project Name: $PROJECT_NAME\n"
+              PROJECT_NAME=$(basename "$PROJECT_DIR")
+              echo "Project Name: $PROJECT_NAME"
 
               # Define build path
-              BUILD_PATH="$DIR/cmake-build-debug"
+              BUILD_PATH="$PROJECT_DIR/cmake-build-debug"
 
               # Print build path and files
-              OUTPUT_MESSAGE+="Build path: $BUILD_PATH\n"
-              OUTPUT_MESSAGE+="Files in build path:\n"
-              OUTPUT_MESSAGE+="$(ls -lah "$BUILD_PATH")\n"
+              echo "Build path: $BUILD_PATH"
+              echo "Files in build path:"
+              ls -lah "$BUILD_PATH"
 
               # Run the executable if it exists
               if [[ -f "$BUILD_PATH/$PROJECT_NAME" ]]; then
-                OUTPUT_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
-                OUTPUT_MESSAGE+="Running executable: $BUILD_PATH/$PROJECT_NAME\n"
+                echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+                echo "Running executable: $BUILD_PATH/$PROJECT_NAME"
                 "$BUILD_PATH/$PROJECT_NAME"
-                OUTPUT_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
+                echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
               else
-                ERROR_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
-                ERROR_MESSAGE+="Error: Executable not found in $BUILD_PATH\n"
-                ERROR_MESSAGE+=" ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n"
+                echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+                echo "Error: Executable not found in $BUILD_PATH"
+                echo " ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+                exit 1
               fi
-            else
-              ERROR_MESSAGE+="Project Directory: \"$DIR\" does not contain CMakeLists.txt\n"
             fi
           done
-
-          # Print final output
-          echo -e "$OUTPUT_MESSAGE"
-
-          # Print error messages
-          if [[ -n "$ERROR_MESSAGE" ]]; then
-            echo "----------------------------------------"
-            echo "The following projects must include a CMakeLists.txt file:"
-            echo -e "$ERROR_MESSAGE"
-          fi
