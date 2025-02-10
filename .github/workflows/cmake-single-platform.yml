@@ -5,9 +5,14 @@ on: [push]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      PREVIOUS_SHA: ${{ github.event.before }}
+      CURRENT_SHA: ${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - name: Install CMake 3.30.0
         uses: lukka/get-cmake@latest
@@ -31,52 +36,73 @@ jobs:
           echo "░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
           echo " ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓████████▓▒░▒▓███████▓▒░░▒▓████████▓▒░░▒▓██████▓▒░  "
 
-          # Flag to track if any project was affected
-          AFFECTED=0
+          #
+          # Determine the modified project directories.
+          #
+          # For a non-initial commit, use git diff to list modified files and then extract the project directory
+          # (assumed to be the first three path components, e.g. dir1/dir2/dir3).
+          #
+          if [ "$PREVIOUS_SHA" = "0000000000000000000000000000000000000000" ]; then
+            echo "This is the first commit. Building all projects."
+            # Find all directories exactly three levels deep that contain at least one .cpp file.
+            MODIFIED_DIRS=$(find . -mindepth 3 -maxdepth 3 -type d -print0 | \
+              xargs -0 -I{} bash -c 'if find "{}" -type f -name "*.cpp" | grep -q .; then echo "{}"; fi' | sort -u)
+          else
+            echo "Getting modified files between $PREVIOUS_SHA and $CURRENT_SHA ..."
+            MODIFIED_FILES=$(git diff --name-only "$PREVIOUS_SHA" "$CURRENT_SHA")
+            echo "Modified files:"
+            echo "$MODIFIED_FILES"
 
-          echo "Scanning for projects that contain at least one .cpp file and were modified..."
+            # Extract the top 3 path components from each modified file
+            MODIFIED_DIRS=$(echo "$MODIFIED_FILES" | awk -F'/' 'NF>=3 {print $1"/"$2"/"$3}' | sort -u)
+          fi
 
-          # Use find with -print0 to handle directory names with spaces.
-          while IFS= read -r -d '' PROJECT_DIR; do
-            # Check if the directory contains at least one .cpp file (recursively)
-            if find "$PROJECT_DIR" -type f -name "*.cpp" | grep -q .; then
-              # Only process this project if any file in it was modified in the latest commit
-              if ! git diff --quiet HEAD^ HEAD -- "$PROJECT_DIR"; then
-                AFFECTED=1
+          echo "Modified project directories detected:"
+          echo "$MODIFIED_DIRS"
+
+          if [ -z "$MODIFIED_DIRS" ]; then
+            echo "No modified project directories detected. Exiting."
+            exit 0
+          fi
+
+          #
+          # Iterate over the list of modified directories.
+          # (IFS is set to newline to correctly handle spaces in directory names.)
+          #
+          IFS=$'\n'
+          for PROJECT_DIR in $MODIFIED_DIRS; do
+            if [ -d "$PROJECT_DIR" ]; then
+              # Verify that the project directory contains at least one .cpp file.
+              if find "$PROJECT_DIR" -type f -name "*.cpp" | grep -q .; then
                 echo "----------------------------------------"
                 echo "Processing project: $PROJECT_DIR"
                 
-                # Check if CMakeLists.txt exists in the project directory
+                # Check for the presence of CMakeLists.txt
                 if [ -f "$PROJECT_DIR/CMakeLists.txt" ]; then
                   BUILD_DIR="$PROJECT_DIR/cmake-build-debug"
                   
-                  # Remove the existing build directory if it exists
+                  # Remove any existing build directory.
                   if [ -d "$BUILD_DIR" ]; then
                     echo "Removing existing build directory: $BUILD_DIR"
                     rm -rf "$BUILD_DIR"
                   fi
 
-                  # Create a new build directory and configure the project
                   echo "Creating build directory and configuring project..."
                   mkdir -p "$BUILD_DIR"
                   cmake -B "$BUILD_DIR" -S "$PROJECT_DIR"
                   
-                  # Build the project
                   echo "Building project..."
                   cmake --build "$BUILD_DIR"
 
                   echo "Compilation complete for project: $PROJECT_DIR"
                   
-                  # Retrieve and print the project name
                   PROJECT_NAME=$(basename "$PROJECT_DIR")
                   echo "Project Name: $PROJECT_NAME"
-
-                  # List files in the build directory
                   echo "Build path: $BUILD_DIR"
                   echo "Files in build path:"
                   ls -lah "$BUILD_DIR"
 
-                  # Attempt to run the executable if it exists
+                  # Run the executable if it exists.
                   if [ -f "$BUILD_DIR/$PROJECT_NAME" ]; then
                     echo "Running executable: $BUILD_DIR/$PROJECT_NAME"
                     "$BUILD_DIR/$PROJECT_NAME"
@@ -86,10 +112,10 @@ jobs:
                 else
                   echo "Error: CMakeLists.txt not found in $PROJECT_DIR. Skipping build for this project."
                 fi
+              else
+                echo "Directory $PROJECT_DIR does not contain any .cpp files. Skipping."
               fi
+            else
+              echo "$PROJECT_DIR is not a valid directory. Skipping."
             fi
-          done < <(find . -mindepth 3 -maxdepth 3 -type d -print0)
-
-          if [ $AFFECTED -eq 0 ]; then
-            echo "No modified projects detected."
-          fi
+          done
