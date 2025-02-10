@@ -6,7 +6,6 @@
  *
  * @brief   Demonstrates the use of lambda functions in C++ with different use cases.
  *
- * 
  * This program showcases various ways to use lambda functions, including:
  * - Sorting a C-style array using lambda as a comparator
  * - Capturing variables by value and by reference in lambda functions
