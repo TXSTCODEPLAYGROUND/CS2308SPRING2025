@@ -4,6 +4,9 @@
 # Allow run.sh in the root directory
 !/run.sh
 
+# Ignore Local WIP
+WIP
+
 # Some hiddens
 .DS_Store
 .idea
