@@ -4,6 +4,7 @@
 
 using namespace std;
 /**
+ * 
  * @brief Checks if a given number is prime.
  * @param num The integer to check.
  * @return true if num is prime, otherwise false.
