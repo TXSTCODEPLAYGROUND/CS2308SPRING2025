@@ -4,8 +4,12 @@
 
 #ifndef SORTING_CARDS_H
 #define SORTING_CARDS_H
+#include <iostream>
+#include <random>
+#include <unordered_map>
+#include <iomanip>
 #include <vector>
-#include <string>
+#include <set>
 using namespace std;
 
 struct Card{
