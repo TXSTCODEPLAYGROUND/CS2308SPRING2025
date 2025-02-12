@@ -1,0 +1,3 @@
+/home/kstuart5521/projects/CS2308SPRING2025/contributions/kstuart520/LambdaFunctionsCopy/build/CMakeFiles/LambdaFunctions.dir
+/home/kstuart5521/projects/CS2308SPRING2025/contributions/kstuart520/LambdaFunctionsCopy/build/CMakeFiles/edit_cache.dir
+/home/kstuart5521/projects/CS2308SPRING2025/contributions/kstuart520/LambdaFunctionsCopy/build/CMakeFiles/rebuild_cache.dir
