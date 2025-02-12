@@ -2,7 +2,7 @@
 //pointer variable is declared by using * sign
 //Important note
 //* = Dereference operator
-//&  =Reference or memory operator
+//&  =Reference or Address Of  operator
 
 #include<iostream>
 using namespace std;
