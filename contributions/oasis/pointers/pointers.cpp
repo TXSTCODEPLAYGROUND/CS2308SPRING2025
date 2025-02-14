@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+void changeB(int* ptr){
+    *ptr = 20;
+}
+
 int main(){
     /*
         Whenever you create a variable in c++ , a memory is allocated for that variable which has its own address.
@@ -58,9 +62,19 @@ int main(){
         You cannot dereference any null pointers.
     */ 
     int* np = NULL;
-    cout << np;
+    cout << np << endl;
 
+    // You can Pass by reference using pointers too
+    int b = 10;
+    changeB(&b);
+    cout << "B with reference as pointers: " <<  b << endl;
     
-
+    /* 
+        So lets figure out what we did here. Here, we first created a void function changeB which takes 
+        pointer as a parameter. Now, what we did it *ptr = 20. Lets go through this. First we are fetching
+        *ptr. which dereferences the address of b(since we passed the address of b in changeB in line 69)
+        Then it fetches the value in the address of b and changes it to 20. Which is passing by reference.
+    */ 
     return 0;
+
 }
