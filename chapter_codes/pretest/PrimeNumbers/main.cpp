@@ -10,10 +10,14 @@ using namespace std;
  * @return true if num is prime, otherwise false.
  * 
  */
-bool isPrime(int num) {
-    if (num <= 2 || num %2 == 0) return num == 2;
-    for (int i = 3; i * i <= static_cast<int>(sqrt(num)); i += 2) { // Skip even numbers, check divisibility
-        if (num % i == 0) return false;
+bool isPrime(int num)
+{
+    if (num <= 2 || num % 2 == 0)
+        return num == 2;
+    for (int i = 3; i * i <= static_cast<int>(sqrt(num)); i += 2)
+    { // Skip even numbers, check divisibility
+        if (num % i == 0)
+            return false;
     }
     return true;
 }
@@ -23,8 +27,10 @@ bool isPrime(int num) {
  * @param num The integer to check.
  * @return true if num is a right-truncatable prime, otherwise false.
  */
-bool isRTPrime(int num) {
-    while (isPrime(num)) num /= 10; // Remove the last digit
+bool isRTPrime(int num)
+{
+    while (isPrime(num))
+        num /= 10; // Remove the last digit
     return num == 0;
 }
 
@@ -33,8 +39,9 @@ bool isRTPrime(int num) {
  * @param num The integer to check.
  * @return true if num is a right-truncatable prime, otherwise false.
  */
-bool isRTPrimeRecursion(int num) {
-    return isPrime(num) ? isRTPrimeRecursion(num/10):num==0;
+bool isRTPrimeRecursion(int num)
+{
+    return isPrime(num) ? isRTPrimeRecursion(num / 10) : num == 0;
 }
 
 /**
@@ -42,11 +49,14 @@ bool isRTPrimeRecursion(int num) {
  * @param num The integer to check.
  * @return true if num is a left-truncatable prime, otherwise false.
  */
-bool isLTPrime(int num) {
+bool isLTPrime(int num)
+{
     // TASK: Do you think this is correct?
     int divisor = 1;
-    while (divisor <= num) divisor *= 10;
-    while (isPrime(num)) {
+    while (divisor <= num)
+        divisor *= 10;
+    while (isPrime(num))
+    {
         divisor /= 10;
         num %= divisor; // Remove the first digit
     }
@@ -58,12 +68,14 @@ bool isLTPrime(int num) {
  * @param num The integer.
  * @return The number of digits in num.
  */
-int countDigits(int num) {
+int countDigits(int num)
+{
     // TASK: Can you use this function to write isLTPrimeWithCountDigits function?
     int digitCount = 0;
-    while (num > 0) {
+    while (num > 0)
+    {
         digitCount++; // Increment digit count
-        num /= 10; // Remove last digit
+        num /= 10;    // Remove last digit
     }
     return digitCount;
 }
@@ -73,14 +85,68 @@ int countDigits(int num) {
  * @param num The integer to check.
  * @return true if num is a left-truncatable prime, otherwise false.
  */
-bool isLTPrimeWithLog(int num) {
+bool isLTPrimeWithLog(int num)
+{
     // TASK: Can you implement a copy of this with recursion, isLTPrimeWithLogRecursion?
     int digitCount = log10(num) + 1;
-    while (digitCount > 0) {
-        if (!isPrime(num)) return false;
+    while (digitCount > 0)
+    {
+        if (!isPrime(num))
+            return false;
         num %= static_cast<int>(pow(10, digitCount - 1)); // Remove the leftmost digit
         digitCount--;
     }
+    return true;
+}
+
+/**
+ * @brief Checks if a number is an Emirp prime.
+ *
+ * This function determines whether a given integer is an Emirp prime number.
+ * An Emirp prime is a prime number that results in a different prime number when its digits are reversed.
+ *
+ * @param num The integer to check for Emirp primality.
+ * @return true if the number is an Emirp prime, false otherwise.
+ */
+bool isEmirp(int num)
+{
+    if (!isPrime(num))
+        return false;
+
+    int reversedNum = 0, originalNum = num;
+    while (num > 0)
+    {
+        reversedNum = reversedNum * 10 + num % 10;
+        num /= 10;
+    }
+
+    return reversedNum != originalNum && isPrime(reversedNum);
+}
+
+/**
+ * @brief Checks if a number is a circular prime.
+ *
+ * This function determines whether a given integer is a circular prime number.
+ * A circular prime is a prime number that remains prime under all rotations of its digits.
+ *
+ * @param num The integer to check for circular primality.
+ * @return true if the number is a circular prime, false otherwise.
+ */
+bool isCircularPrime(int num)
+{
+    int digits = log10(num) + 1;
+    int power = pow(10, digits - 1);
+    int rotatedNum = num;
+
+    for (int i = 0; i < digits; ++i)
+    {
+        if (!isPrime(rotatedNum))
+            return false;
+
+        int lastDigit = rotatedNum % 10;
+        rotatedNum = (rotatedNum / 10) + (lastDigit * power);
+    }
+
     return true;
 }
 
@@ -89,15 +155,19 @@ bool isLTPrimeWithLog(int num) {
  * @param primeNum The prime number.
  * @return The length of the repeating decimal sequence.
  */
-int countReciprocalRepeat(int primeNum) {
+int countReciprocalRepeat(int primeNum)
+{
     // TASK! Pen and paper required! Can you tell how this is working/not-working?
-    if (!isPrime(primeNum)) return -1; // Return -1 for non-prime input
+    if (!isPrime(primeNum))
+        return -1; // Return -1 for non-prime input
     int remainder = 1, position = 0;
 
-    for (int i = 0; i < primeNum; ++i) {
+    for (int i = 0; i < primeNum; ++i)
+    {
         remainder = (remainder * 10) % primeNum;
         position++;
-        if (remainder == 1) {
+        if (remainder == 1)
+        {
             return position;
         }
     }
@@ -108,14 +178,17 @@ int countReciprocalRepeat(int primeNum) {
  * @param num The prime number.
  * @param precisionSize The number of decimal places to print.
  */
-void printReciprocalWithPrecision(int num, int precisionSize) {
-    if (!isPrime(num)) {
+void printReciprocalWithPrecision(int num, int precisionSize)
+{
+    if (!isPrime(num))
+    {
         cout << "Not a prime number." << endl;
         return;
     }
     int remainder = 1;
     cout << "With (PrecisionSize: " << precisionSize << ") " << 1 << "/" << num << " = 0.";
-    for (int i = 0; i < precisionSize; ++i) {
+    for (int i = 0; i < precisionSize; ++i)
+    {
         remainder *= 10;
         cout << remainder / num;
         remainder %= num;
@@ -123,16 +196,18 @@ void printReciprocalWithPrecision(int num, int precisionSize) {
     cout << endl;
 }
 
-int main() {
+int main()
+{
     int testNum = 17;
     cout << "isPrime(" << testNum << ") = " << isPrime(testNum) << endl;
     cout << "isRTPrime(" << testNum << ") = " << isRTPrime(testNum) << endl;
     cout << "isLTPrime(" << testNum << ") = " << isLTPrime(testNum) << endl;
     cout << "isLTPrimeWithLog(" << testNum << ") = " << isLTPrimeWithLog(testNum) << endl;
+    cout << "isEmirp(" << testNum << ") = " << isEmirp(testNum) << endl;
+    cout << "isCircularPrime(" << testNum << ") = " << isCircularPrime(testNum) << endl;
     cout << "countDigits(" << testNum << ") = " << countDigits(testNum) << endl;
     int repeatLength = countReciprocalRepeat(testNum);
     cout << "countReciprocalRepeat(" << testNum << ") = " << repeatLength << endl;
     printReciprocalWithPrecision(testNum, 2 * repeatLength);
     return 0;
 }
-
