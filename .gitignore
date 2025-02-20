@@ -1,3 +1,5 @@
+# Directories
+data
 # Ignore all run.sh files
 **/run.sh
 
