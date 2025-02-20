@@ -1,9 +1,21 @@
+# Ignore all run.sh files
+**/run.sh
+
+# Allow run.sh in the root directory
+!/run.sh
+text/
+
+# Ignore Local WIP
+WIP
+
 # Some hiddens
+~$*.pptx
 .DS_Store
 .idea
 .vscode
 GitSkip
 cmake-build-debug
+*.dSYM
 
 # Prerequisites
 *.d
