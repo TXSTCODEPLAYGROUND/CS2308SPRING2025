@@ -1,21 +1,16 @@
-# Minimum required CMake version
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.20)
 
 project(DSA_in_CPP)
 
-# Set C++ Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Define source files (Ensure filenames match exactly)
-set(SOURCE_FILES 
-    index.cpp
-    pointersAndReferences.cpp
-    sumOfN.cpp  # Ensure correct filename case
-    uniqueNum.cpp
-    vectors.cpp
+include_directories(include)
+
+set(SOURCE_FILES
+main.cpp
+src/pointersAndReferences.cpp
+src/arrayAndVectors.cpp
 )
 
-# Create an executable 
 add_executable(DSA_in_CPP ${SOURCE_FILES})
-
