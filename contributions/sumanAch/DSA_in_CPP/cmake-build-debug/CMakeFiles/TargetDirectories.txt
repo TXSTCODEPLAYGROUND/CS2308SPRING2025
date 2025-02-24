@@ -1,0 +1,3 @@
+/mnt/c/Users/suman/Downloads/TestFolder/DSA_in_CPP/cmake-build-debug/CMakeFiles/DSA_in_CPP.dir
+/mnt/c/Users/suman/Downloads/TestFolder/DSA_in_CPP/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/suman/Downloads/TestFolder/DSA_in_CPP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
