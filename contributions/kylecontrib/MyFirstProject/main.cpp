@@ -3,7 +3,7 @@
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 int main() {
-    std::cout << "Keshav's making our life harder!!!" << std::endl;
+    std::cout << "keshav this is great! but a lot of suffering!!" << std::endl;
 }
 
 // TIP See CLion help at <a
