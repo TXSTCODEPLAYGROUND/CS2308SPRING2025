@@ -1,0 +1,21 @@
+//code to find the smallest number between three inputs
+#include <iostream>
+using namespace std;
+
+int main() {
+   
+   int num;
+   int smallnum;
+    cin >> num;
+    smallnum = num;
+   for ( int i= 0; i < 2; ++i){
+       cin >> num;
+       if ( smallnum > num){
+        smallnum = num;
+       }
+   }
+cout << smallnum <<endl;
+   return 0;
+}
+
+
