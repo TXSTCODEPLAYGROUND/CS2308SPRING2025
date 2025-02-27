@@ -22,7 +22,7 @@ and search it in DeepSeek(no OPENAi was harmed))
 ->So, if you want to work as an AI/ML dev (python is mostly use but C++ can help you optimize and deploy ML models efficiently)
 ->You want to work in an industry where speed actually matters like high frequency trading,rocket launches,embedded systems, 
 IOT and robotics and other various field, you should definitely learn C++.
--> It makes easier for you to switch into any to other languages.
+-> It makes easier for you to switch into any to other languages
 ------------------------------------------------------------------
 
 
