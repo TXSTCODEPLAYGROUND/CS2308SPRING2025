@@ -100,25 +100,6 @@ void bubbleSort(int* arr, int size) {
 }
 
 
-int quickPartition(int* arr, int low, int high){
-    int pivot = arr[high];
-    int i = low - 1;
-    int j;
-    string info = "low = " + to_string(low) + ", high = " + to_string(high);
-    for(j = low; j <= high; j++){
-        COUNT ++;
-        displayArray(arr, SIZE, i, j, info);
-        if(arr[j] < pivot){
-            i++;
-            swapPair(arr[i], arr[j]);
-            displayArray(arr, SIZE, i, j, info);
-        }
-    }
-    swapPair(arr[i+1], arr[high]);
-    displayArray(arr, SIZE, i, j, info);
-    return i+1;
-}
-
 int qPartition(int* arr, int low, int high){
     int pivot = arr[high];
     int left = low - 1, right = high;
