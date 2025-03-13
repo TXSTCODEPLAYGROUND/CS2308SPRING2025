@@ -7,8 +7,7 @@ This project implements the **Bubble Sort** algorithm in C++ to sort a vector of
 ## Files
 
 - **`bubble_sort.h`** - Header file containing the function prototype and documentation.
-- **`bubble_sort.cpp`** - Implementation file defining the `bubbleSort` function.
-- **`main.cpp`** - Driver program to demonstrate the Bubble Sort function.
+- **`main.cpp`** - program to demonstrate the Bubble Sort function.
 
 ## Usage
 
