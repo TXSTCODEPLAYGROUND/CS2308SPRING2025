@@ -5,8 +5,7 @@ This project implements the **Insertion Sort** algorithm in C++ to sort a vector
 
 ## Files
 - **`insertion_sort.h`** - Header file containing the function prototype and documentation.
-- **`insertion_sort.cpp`** - Implementation file defining the `insertionSort` function.
-- **`main.cpp`** - Driver program to demonstrate the Insertion Sort function.
+- **`main.cpp`** - program to demonstrate the Insertion Sort function.
 
 ## Usage
 1. Include the `insertion_sort.h` header file in your program.
