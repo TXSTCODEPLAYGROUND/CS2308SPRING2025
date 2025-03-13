@@ -5,8 +5,7 @@ This project implements the **Selection Sort** algorithm in C++ to sort a vector
 
 ## Files
 - **`selection_sort.h`** - Header file containing the function prototype and documentation.
-- **`selection_sort.cpp`** - Implementation file defining the `selectionSort` function.
-- **`main.cpp`** - Driver program to demonstrate the Selection Sort function.
+- **`main.cpp`** - program to demonstrate the Selection Sort function.
 
 ## Usage
 1. Include the `selection_sort.h` header file in your program.
