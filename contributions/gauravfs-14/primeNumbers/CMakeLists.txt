@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Add source files
 set(SOURCES
     main.cpp
-    functions/utils.cpp
+    functions/functions.cpp
 )
 
 # Add header files
