@@ -11,9 +11,8 @@
  * @param mid The index of the rightmost element of the first subarray.
  * @param right The index of the rightmost element of the second subarray.
  */
-void mergeSort(int arr[], int left, int right)
+void merge(int arr[], int left, int mid, int right)
 {
-    int mid = left + (right - left) / 2;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
@@ -59,5 +58,20 @@ void mergeSort(int arr[], int left, int right)
         arr[k] = R[j];
         j++;
         k++;
+    }
+}
+
+void mergeSort(int arr[], int left, int right)
+{
+    if (left < right)
+    {
+        int mid = left + (right - left) / 2;
+
+        // Sort first and second halves
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        // Merge the sorted halves
+        merge(arr, left, mid, right);
     }
 }
