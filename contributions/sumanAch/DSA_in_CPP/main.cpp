@@ -10,5 +10,6 @@ int main() {
     //  sumUsingLoop(int n);
     //  sumUsingFormula(int n);
     //  uniqueNum(std::vector<int> &nums);
+    cout<<"Hello world"<<endl;
     return 0;
 }
