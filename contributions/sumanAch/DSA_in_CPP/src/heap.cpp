@@ -81,7 +81,7 @@ int main(){
     h1.insert(40);
     h1.insert(30);
     h1.print();
-    cout<<".................Implementing Min Heap............................."<<endl;
+    cout<<".................Implementing Min Heap..............................."<<endl;
     MinHeap h2;
     h2.insert(10);
     h2.insert(20);
