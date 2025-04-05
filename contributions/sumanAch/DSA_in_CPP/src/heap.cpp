@@ -71,7 +71,7 @@ class MaxHeap{
 
 
 int main(){
-    cout<<"..................Implementing Max heap........................."<<endl;
+    cout<<"..................Implementing Max heap..........................."<<endl;
     MaxHeap h1;
     h1.insert(10);
     h1.insert(20);
