@@ -44,7 +44,7 @@ A `DEBUG` mode is available for verifying your implementation. When running in n
 │   ├── sudoku_io.cpp
 │   └── utils.cpp
 ├── cmake-build-debug/
-│   └── data/ (Only if you run the program in non-debug mode)
+│   └── data/ (Only if you run the program in non-debug mode, meaning commenting/removing line10: #define DEBUG_MODE)
 │       ├── puzzles/
 │       └── solutions/
 └── buildrun.sh (for VSCode users)

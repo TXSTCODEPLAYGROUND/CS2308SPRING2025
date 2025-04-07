@@ -18,7 +18,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void printBoard(int** BOARD, const int& r, const int& c, int k)
+void printBoard(int** BOARD, const int& r, const int& c, int k, const bool& color)
 {
     if(BOARD[r][c]>0) k = 0;
 
@@ -27,14 +27,14 @@ void printBoard(int** BOARD, const int& r, const int& c, int k)
         for (int j = 0; j < 9; j++)
         {
             string board_piece;
-            if (BOARD[i][j] == 0) board_piece = "\x1B[93m-\x1B[0m"; // Yellow
+            if (BOARD[i][j] == 0) board_piece = color ? "\x1B[93m-\x1B[0m" : " "; // Yellow
             else board_piece = to_string(BOARD[i][j]); // White
             if ((i == r && j == c) && k != 0)
             {
                 if (isValid(BOARD, r, c, k))
-                    board_piece = "\x1B[32m" + to_string(k) + "\x1B[0m"; // Green
+                    board_piece = color? "\x1B[32m" + to_string(k) + "\x1B[0m" : to_string(k); // Green
                 else
-                    board_piece = "\x1B[31m" + to_string(k) + "\x1B[0m"; // Red
+                    board_piece = color? "\x1B[31m" + to_string(k) + "\x1B[0m" : to_string(k); // Red
             }
             cout << board_piece;
             if (j == 2 || j == 5) cout << " | ";
@@ -206,6 +206,22 @@ void displayProgressBar(int current, int total, int barWidth = 50) {
 }
 
 void solveAndSaveNPuzzles(const int &num_puzzles, const string& source, const string& destination, const string& prefix){
+    /**
+      * TODO:
+      * - Identify where in this function dynamically allocated memory (e.g., Sudoku boards) should be deallocated.
+      * - Use the `deallocateBoard()` function to free memory when:
+      *   1. The board is no longer needed (e.g., after solving or processing).
+      *   2. Before reassigning a pointer to a new board to avoid memory leaks.
+      *   3. Before returning from the function to ensure all allocated memory is freed.
+      *
+      * Example:
+      *   deallocateBoard(BOARD);  // Free memory allocated for the board
+      *
+      * Hints:
+      * - Always deallocate after you're done using the board.
+      * - Be mindful of potential memory leaks if the board isn't deallocated properly.
+      * - Set the pointer to nullptr after deallocation to avoid dangling pointers.
+      */
     int total_success_solve = 0;
     int total_success_write = 0;
     vector<string> path_to_sudokus = getAllSudokuInFolder(source);
