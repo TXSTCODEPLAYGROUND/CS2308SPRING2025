@@ -118,10 +118,8 @@ tuple<int, int, int> findNextCell(int** BOARD) {
      *     }
      * @endcode
      */
-
     int minOptions = INT_MAX;
     int bestRow = -1, bestCol = -1;
-    int currentMin = 0;
 
     for (int r = 0; r < 9; r++) {
         for (int c = 0; c < 9; c++) {
@@ -133,25 +131,6 @@ tuple<int, int, int> findNextCell(int** BOARD) {
              * - Track the cell with the minimum number of options.
              * - Implement early exit if a cell with only one option is found.
              */
-            if(BOARD[r][c] == 0){
-                for(int k = 0; k < 9; k++) {
-                    if ((isValid(BOARD, r, c, k)) == true){
-                        currentMin++;
-                    }
-                }
-                if (currentMin == 1) {
-                    minOptions = 1;
-                    bestRow = r;
-                    bestCol = c;
-                    return {bestRow, bestCol, minOptions};
-                }
-                else if (currentMin < minOptions) {
-                    minOptions = currentMin;
-                    bestRow = r;
-                    bestCol = c;
-                }
-                currentMin = 0;
-            }
         }
     }
     return {bestRow, bestCol, minOptions};

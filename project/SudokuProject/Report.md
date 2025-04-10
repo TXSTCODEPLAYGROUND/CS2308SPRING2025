@@ -16,7 +16,7 @@ In the next paragraph, reflect on the **skills** and **knowledge** gained, like 
 **Collaborators Added:**
 - Instructor: `keshavsbhandari`
 - TA: `tousifulhaque`
-- Team Members: Seth Tunon, Ruben Luna 
+- Team Members: Seth Tunon, 
 
 ---
 
@@ -46,7 +46,7 @@ This flow illustrates the general steps the program takes in non-DEBUG mode, fro
 2. **What contributions did your friends make? List them.**
 
     - Seth Tunon: Generator.cpp, 
-    - Ruben Luna: 
+    - [Teammate 2]:
     - [Teammate 3]:
 
 3. **Why do you think `efficientSolver` took more time than the regular solver? What strategies would you implement to make `efficientSolver` actually efficient?**  
