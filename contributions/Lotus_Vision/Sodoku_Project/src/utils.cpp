@@ -9,6 +9,8 @@ using namespace std;
 void deallocateBoard(int** BOARD, const int& rows) {
     // TODO: Implement memory deallocation for the 2D board
 
+    if (BOARD == nullptr)
+
     /**
      * - Check if BOARD is nullptr.
      * - Iterate through each row and deallocate using delete[].
