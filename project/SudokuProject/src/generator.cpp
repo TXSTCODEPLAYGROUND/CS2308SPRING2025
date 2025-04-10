@@ -287,7 +287,6 @@ int** generateBoard(const int& empty_boxes){
         for(int j = 0; j < 9; j++) {
             for (int k = 0; k < 9; k++) {
                 if (BOARD[i][j] != 0) break;
-                if
             }
         }
     }
