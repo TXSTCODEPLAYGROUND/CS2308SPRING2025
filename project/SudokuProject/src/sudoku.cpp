@@ -149,7 +149,7 @@ tuple<int, int, int> findNextCell(int** BOARD) {
                     bestRow = r;
                     bestCol = c;
                 }
-                currentMin = 0;
+                currentMin = 0;                 //ask Keshav about this (do I need to end loop at some point
             }
         }
     }
@@ -177,6 +177,10 @@ bool solveBoardEfficient(int** BOARD)
      * @param BOARD A 9x9 Sudoku board to be solved.
      * @return true if the board is successfully solved, false otherwise.
      */
+    auto[row, col, options] = findNextCell(BOARD);
+    
+
+
     return false; //temporary
 }
 
@@ -188,6 +192,12 @@ bool solve(int** board, const bool& efficient) {
      * - If efficient == true, return solveBoardEfficient(board).
      * - Else, return solveBoard(board, 0, 0).
      */
+    if (efficient == true) {
+        return solveBoardEfficient(board);
+    }
+    else {
+        return solveBoard(board, 0, 0);
+    }
 
-    return solveBoard(board, 0, 0); // Temporary: Always calls basic solver
+    return solveBoard(board, 0, 0);  // Temporary: Always calls basic solver
 }
