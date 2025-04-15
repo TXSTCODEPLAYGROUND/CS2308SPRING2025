@@ -24,8 +24,14 @@
 using namespace std;
 
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
+ * @brief ??
+ *
+ * ??
+ * ??
+ *
+ * @param BOARD ??
+ * @param rows ??
+ */
 void deallocateBoard(int** BOARD, const int& rows = 9);
 
 /**
