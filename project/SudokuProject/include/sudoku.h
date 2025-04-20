@@ -18,38 +18,36 @@
  * February 7, 2025
  */
 
-#ifndef SUDOKUPROJECT_SUDOKU_H
-#define SUDOKUPROJECT_SUDOKU_H
+#ifndef SUDOKU_H
+#define SUDOKU_H
 
-#include <iostream>
+#include <tuple>
 
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
+ * @brief Checks if placing k at (r, c) is valid.
+ */
 bool isValid(int** BOARD, const int& r, const int& c, const int& k);
 
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
-bool solveBoard(int** BOARD, const int& r=0, const int& c=0);
-
-// ========================= Efficient Solutions ==========================
-
+ * @brief Solves the Sudoku board using simple backtracking.
+ */
+bool solveBoard(int** BOARD, const int& r, const int& c);
 
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
+ * @brief Finds the next empty cell using MRV heuristic.
+ * @return (row, col, number of valid options)
+ */
 std::tuple<int, int, int> findNextCell(int** BOARD);
 
-
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
+ * @brief Solves Sudoku using backtracking and MRV heuristic.
+ */
 bool solveBoardEfficient(int** BOARD);
 
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
-bool solve(int** board, const bool& efficient = false);
+ * @brief Dispatches to efficient or basic solver.
+ * @param efficient If true, uses MRV solver.
+ */
+bool solve(int** board, const bool& efficient);
 
-#endif //SUDOKUPROJECT_SUDOKU_H
+#endif

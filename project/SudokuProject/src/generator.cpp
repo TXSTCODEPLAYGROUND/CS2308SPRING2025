@@ -85,7 +85,7 @@ int** generateBoard(const int& empty_boxes) {
         deleteRandomItems(board, empty_boxes);
         return board;
     }
-    // If solving fails, clean up and return nullptr
+    // If solving fails, cleaning up and returning the nullptr
     for (int i = 0; i < 9; i++) delete[] board[i];
     delete[] board;
     return nullptr;
