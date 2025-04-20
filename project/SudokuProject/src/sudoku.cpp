@@ -13,50 +13,143 @@
  * February 7, 2025
 */
 
-#include "sudoku.h"
-#include <vector>
+#include "../include/sudoku.h"
+#include <iostream>
+#include <tuple>
+#include <climits>  // For INT_MAX
 
-bool isValid(int** BOARD, const int& r, const int& c, const int& k) {
-    // Your existing implementation here
+using namespace std;
+
+bool isValid(int** BOARD, const int& r, const int& c, const int& k)
+{
+    // Check if 'k' already exists in the same row or column
+    for (int i = 0; i < 9; i++)
+    {
+        if (k == BOARD[r][i] || k == BOARD[i][c])
+            return false;  // Invalid placement
+    }
+
+    // Determine starting indices for the 3x3 subgrid
+    int startRow = 3 * (r / 3);
+    int startCol = 3 * (c / 3);
+
+    // Check if 'k' exists in the 3x3 subgrid
+    for (int i = startRow; i < startRow + 3; i++)
+    {
+        for (int j = startCol; j < startCol + 3; j++)
+        {
+            if (k == BOARD[i][j])
+                return false;  // Invalid placement
+        }
+    }
+
+    return true;  // Placement is valid
 }
 
-bool solveBoard(int** BOARD, const int& r, const int& c) {
-    // Your existing implementation here
+bool solveBoard(int** BOARD, const int& r, const int& c)
+{
+    // If we've reached beyond the last row, the board is solved
+    if (r == 9)
+        return true;
+
+    // Move to the next row if we've reached the end of the current row
+    if (c == 9)
+        return solveBoard(BOARD, r + 1, 0);
+
+    // Skip already filled cells and move to the next column
+    if (BOARD[r][c] != 0)
+        return solveBoard(BOARD, r, c + 1);
+
+    // Try placing numbers 1 to 9 in the current empty cell
+    for (int k = 1; k <= 9; k++)
+    {
+        if (isValid(BOARD, r, c, k))
+        {
+            BOARD[r][c] = k;  // Place number 'k'
+
+            // Recursively attempt to solve the rest of the board
+            if (solveBoard(BOARD, r, c + 1))
+                return true;  // Found a valid solution
+
+            // Backtrack: Remove the number if no solution is found
+            BOARD[r][c] = 0;
+        }
+    }
+
+    // Trigger backtracking if no valid number can be placed
+    return false;
 }
 
-std::tuple<int, int, int> findNextCell(int** BOARD) {
-    int min_options = 10;
-    std::tuple<int, int, int> best_cell(-1, -1, 10);
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (BOARD[i][j] != 0) continue;
-            int options = 0;
-            for (int k = 1; k <= 9; k++) {
-                if (isValid(BOARD, i, j, k)) options++;
-            }
-            if (options < min_options) {
-                min_options = options;
-                best_cell = std::make_tuple(i, j, options);
-                if (min_options == 1) return best_cell;
+tuple<int, int, int> findNextCell(int** BOARD) {
+    /**
+     * @brief Finds the next empty cell using the Minimum Remaining Value (MRV) heuristic.
+     *
+     * The MRV heuristic selects the empty cell with the fewest valid number options left,
+     * which helps in optimizing the backtracking process by reducing the branching factor.
+     */
+    int minOptions = INT_MAX;
+    int bestRow = -1, bestCol = -1;
+
+    for (int r = 0; r < 9; r++) {
+        for (int c = 0; c < 9; c++) {
+            if (BOARD[r][c] == 0) {
+                int validOptions = 0;
+                for (int k = 1; k <= 9; k++) {
+                    if (isValid(BOARD, r, c, k)) {
+                        validOptions++;
+                    }
+                }
+
+                if (validOptions < minOptions) {
+                    minOptions = validOptions;
+                    bestRow = r;
+                    bestCol = c;
+
+                    // Early exit if cell with only one option found
+                    if (minOptions == 1) {
+                        return {bestRow, bestCol, minOptions};
+                    }
+                }
             }
         }
     }
-    return best_cell;
+    return {bestRow, bestCol, minOptions};
 }
 
-bool solveBoardEfficient(int** BOARD) {
-    auto [row, col, options] = findNextCell(BOARD);
-    if (row == -1) return true;
-    for (int num = 1; num <= 9; num++) {
-        if (isValid(BOARD, row, col, num)) {
-            BOARD[row][col] = num;
-            if (solveBoardEfficient(BOARD)) return true;
-            BOARD[row][col] = 0;
+bool solveBoardEfficient(int** BOARD)
+{
+    /**
+     * @brief Efficiently solves the Sudoku board using backtracking and the MRV heuristic.
+     *
+     * This function uses a recursive backtracking approach combined with the Minimum Remaining Value (MRV)
+     * heuristic to optimize the solving process by always selecting the cell with the fewest valid options.
+     */
+    auto [r, c, options] = findNextCell(BOARD);
+
+    // If no empty cells found
+    if (r == -1) return true;
+
+    // Try all valid numbers for the selected cell
+    for (int k = 1; k <= 9; k++) {
+        if (isValid(BOARD, r, c, k)) {
+            BOARD[r][c] = k;
+            if (solveBoardEfficient(BOARD)) {
+                return true;
+            }
+            BOARD[r][c] = 0;  // Backtrack
         }
     }
+
     return false;
 }
 
 bool solve(int** board, const bool& efficient) {
-    return efficient ? solveBoardEfficient(board) : solveBoard(board, 0, 0);
+    /**
+     * @brief Chooses between basic and efficient solvers based on the 'efficient' flag
+     */
+    if (efficient) {
+        return solveBoardEfficient(board);
+    } else {
+        return solveBoard(board, 0, 0);
+    }
 }

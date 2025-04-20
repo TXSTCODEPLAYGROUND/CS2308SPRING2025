@@ -18,36 +18,44 @@
  * February 7, 2025
  */
 
-#ifndef SUDOKU_H
-#define SUDOKU_H
+#ifndef SUDOKUPROJECT_SUDOKU_H
+#define SUDOKUPROJECT_SUDOKU_H
 
+#include <iostream>
 #include <tuple>
 
 /**
- * @brief Checks if placing k at (r, c) is valid.
+ * TODO: Provide appropriate Documentation, see other examples provided within the projects
  */
 bool isValid(int** BOARD, const int& r, const int& c, const int& k);
 
 /**
- * @brief Solves the Sudoku board using simple backtracking.
+ * TODO: Provide appropriate Documentation, see other examples provided within the projects
  */
-bool solveBoard(int** BOARD, const int& r, const int& c);
+bool solveBoard(int** BOARD, const int& r=0, const int& c=0);
+
+// ========================= Efficient Solutions ==========================
 
 /**
- * @brief Finds the next empty cell using MRV heuristic.
- * @return (row, col, number of valid options)
+ * @brief Finds the next empty cell using Minimum Remaining Value heuristic.
+ * @param BOARD The Sudoku board
+ * @return tuple<int,int,int> (row, col, number of options)
  */
 std::tuple<int, int, int> findNextCell(int** BOARD);
 
 /**
- * @brief Solves Sudoku using backtracking and MRV heuristic.
+ * @brief Solves Sudoku using backtracking with MRV heuristic
+ * @param BOARD The Sudoku board
+ * @return true if solved successfully
  */
 bool solveBoardEfficient(int** BOARD);
 
 /**
- * @brief Dispatches to efficient or basic solver.
- * @param efficient If true, uses MRV solver.
+ * @brief Chooses between basic and efficient solvers
+ * @param board The Sudoku board
+ * @param efficient Whether to use efficient solver
+ * @return true if solved successfully
  */
-bool solve(int** board, const bool& efficient = true);
+bool solve(int** board, const bool& efficient = false);
 
-#endif
+#endif //SUDOKUPROJECT_SUDOKU_H

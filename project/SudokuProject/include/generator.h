@@ -9,8 +9,13 @@
  * - Randomly delete cells to create a solvable puzzle.
  * - Generate a complete Sudoku puzzle with a specific number of empty cells.
  *
- * @author Keshav Bhandari
- * @date February 7, 2025
+ * Detailed function descriptions and parameters are provided below.
+ *
+ * @author
+ * Keshav Bhandari
+ *
+ * @date
+ * February 7, 2025
  */
 
 #ifndef GENERATOR_H
@@ -25,29 +30,29 @@
 int** getEmptyBoard();
 
 /**
- * @brief Generates a vector of numbers 1-9 in random order.
- * @return std::vector<int> Shuffled numbers 1-9.
+ * @brief Returns a vector of numbers 1-9 shuffled randomly.
+ * @return std::vector<int> Shuffled vector of numbers 1-9.
  */
 std::vector<int> getShuffledVector();
 
 /**
- * @brief Fills the three diagonal 3x3 boxes with random numbers.
- * @param BOARD The Sudoku board to modify.
+ * @brief Fills the three diagonal 3x3 boxes of the Sudoku board with unique shuffled numbers.
+ * @param BOARD The 9x9 Sudoku board to fill.
  */
 void fillBoardWithIndependentBox(int** BOARD);
 
 /**
- * @brief Randomly clears cells in a Sudoku board.
- * @param BOARD The Sudoku board to modify.
- * @param n Number of cells to clear (1-81).
+ * @brief Deletes n unique random cells from the Sudoku board by setting them to 0.
+ * @param BOARD The 9x9 Sudoku board.
+ * @param n Number of cells to delete (1-81).
  */
 void deleteRandomItems(int** BOARD, const int& n);
 
 /**
- * @brief Generates a solvable Sudoku puzzle.
- * @param empty_boxes Number of cells to leave empty (1-81).
- * @return int** Generated Sudoku board.
+ * @brief Generates a Sudoku board with a specified number of empty cells.
+ * @param empty_boxes Number of empty cells to create.
+ * @return int** The generated Sudoku board.
  */
 int** generateBoard(const int& empty_boxes);
 
-#endif
+#endif // GENERATOR_H

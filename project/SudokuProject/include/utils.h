@@ -17,20 +17,21 @@
  * February 8, 2025
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef SUDOKUPROJECT_UTILITY_H
+#define SUDOKUPROJECT_UTILITY_H
 
 #include <string>
+using namespace std;
 
 /**
- * @brief Deallocates a 2D board.
- * @param BOARD Board to deallocate.
- * @param rows Number of rows in the board.
+ * @brief Deallocates memory for a dynamically allocated 9x9 Sudoku board.
+ * @param BOARD Pointer to the 2D board to deallocate.
+ * @param rows Number of rows in the board (default 9).
  */
 void deallocateBoard(int** BOARD, const int& rows = 9);
 
-void createFolder(const std::string& folderPath);
+void createFolder(const string& folderPath);
 void initDataFolder();
-std::string getFileName(const int& index, const std::string& destination, const std::string& prefix);
+string getFileName(const int& index, const string& destination, const string& prefix);
 
-#endif
+#endif //SUDOKUPROJECT_UTILITY_H
