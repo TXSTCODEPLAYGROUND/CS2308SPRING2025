@@ -90,3 +90,4 @@ int** generateBoard(const int& empty_boxes) {
     delete[] board;
     return nullptr;
 }
+
