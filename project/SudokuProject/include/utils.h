@@ -27,7 +27,7 @@
  * @param BOARD Board to deallocate.
  * @param rows Number of rows in the board.
  */
-void deallocateBoard(int** BOARD, const int& rows);
+void deallocateBoard(int** BOARD, const int& rows = 9);
 
 void createFolder(const std::string& folderPath);
 void initDataFolder();

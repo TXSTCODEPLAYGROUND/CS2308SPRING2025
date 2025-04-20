@@ -48,6 +48,6 @@ bool solveBoardEfficient(int** BOARD);
  * @brief Dispatches to efficient or basic solver.
  * @param efficient If true, uses MRV solver.
  */
-bool solve(int** board, const bool& efficient);
+bool solve(int** board, const bool& efficient = true);
 
 #endif
