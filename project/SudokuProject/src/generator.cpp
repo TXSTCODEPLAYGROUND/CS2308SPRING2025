@@ -29,8 +29,6 @@
 #include <random>
 #include <vector>
 
-using namespace std;
-
 int** getEmptyBoard() {
     int** board = new int*[9];
     for (int i = 0; i < 9; i++) {
@@ -39,18 +37,18 @@ int** getEmptyBoard() {
     return board;
 }
 
-vector<int> getShuffledVector() {
-    vector<int> numbers(9);
-    iota(numbers.begin(), numbers.end(), 1);
-    random_device rd;
-    mt19937 rng(rd());
-    shuffle(numbers.begin(), numbers.end(), rng);
+std::vector<int> getShuffledVector() {
+    std::vector<int> numbers(9);
+    for (int i = 0; i < 9; ++i) numbers[i] = i + 1;
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::shuffle(numbers.begin(), numbers.end(), rng);
     return numbers;
 }
 
 void fillBoardWithIndependentBox(int** BOARD) {
     for (int box = 0; box < 3; box++) {
-        vector<int> nums = getShuffledVector();
+        std::vector<int> nums = getShuffledVector();
         int idx = 0;
         int rowStart = box * 3;
         int colStart = box * 3;
@@ -63,16 +61,16 @@ void fillBoardWithIndependentBox(int** BOARD) {
 }
 
 void deleteRandomItems(int** BOARD, const int& n) {
-    int clearCount = std::clamp(n, 1, 81);
-    vector<pair<int, int>> cells;
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            cells.emplace_back(i, j);
-        }
-    }
-    random_device rd;
-    mt19937 rng(rd());
-    shuffle(cells.begin(), cells.end(), rng);
+    int clearCount = n;
+    if (clearCount < 1) clearCount = 1;
+    if (clearCount > 81) clearCount = 81;
+    std::vector<std::pair<int, int>> cells;
+    for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 9; j++)
+            cells.push_back({i, j});
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::shuffle(cells.begin(), cells.end(), rng);
     for (int i = 0; i < clearCount; i++) {
         BOARD[cells[i].first][cells[i].second] = 0;
     }
@@ -85,9 +83,8 @@ int** generateBoard(const int& empty_boxes) {
         deleteRandomItems(board, empty_boxes);
         return board;
     }
-    // If solving fails, cleaning up and returning the nullptr
+    // Clean up if solving fails
     for (int i = 0; i < 9; i++) delete[] board[i];
     delete[] board;
     return nullptr;
 }
-

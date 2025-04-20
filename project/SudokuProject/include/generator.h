@@ -19,34 +19,34 @@
 #include <vector>
 
 /**
- * @brief Creates a 9x9 Sudoku board initialized with zeros.
- * @return int** Dynamically allocated 9x9 array.
+ * @brief Creates an empty 9x9 Sudoku board initialized with zeros.
+ * @return int** Dynamically allocated 9x9 board.
  */
 int** getEmptyBoard();
 
 /**
- * @brief Generates a randomized vector of numbers 1-9.
+ * @brief Generates a vector of numbers 1-9 in random order.
  * @return std::vector<int> Shuffled numbers 1-9.
  */
 std::vector<int> getShuffledVector();
 
 /**
- * @brief Fills the three diagonal 3x3 boxes with unique numbers.
- * @param BOARD 9x9 Sudoku board to modify.
+ * @brief Fills the three diagonal 3x3 boxes with random numbers.
+ * @param BOARD The Sudoku board to modify.
  */
 void fillBoardWithIndependentBox(int** BOARD);
 
 /**
- * @brief Randomly clears specified number of cells on the board.
- * @param BOARD 9x9 Sudoku board to modify.
+ * @brief Randomly clears cells in a Sudoku board.
+ * @param BOARD The Sudoku board to modify.
  * @param n Number of cells to clear (1-81).
  */
 void deleteRandomItems(int** BOARD, const int& n);
 
 /**
- * @brief Generates a complete Sudoku board with specified empty cells.
+ * @brief Generates a solvable Sudoku puzzle.
  * @param empty_boxes Number of cells to leave empty (1-81).
- * @return int** Generated 9x9 Sudoku board.
+ * @return int** Generated Sudoku board.
  */
 int** generateBoard(const int& empty_boxes);
 

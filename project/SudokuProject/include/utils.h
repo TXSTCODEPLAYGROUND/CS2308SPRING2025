@@ -17,47 +17,20 @@
  * February 8, 2025
  */
 
-#ifndef SUDOKUPROJECT_UTILITY_H
-#define SUDOKUPROJECT_UTILITY_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #include <string>
-using namespace std;
 
 /**
-  * TODO: Provide appropriate Documentation, see other examples provided within the projects
-  */
-void deallocateBoard(int** BOARD, const int& rows = 9);
-
-/**
- * @brief Creates a folder at the specified path if it does not exist.
- *
- * Checks if the folder already exists and creates it if it doesn't. Logs
- * success or failure messages to the console.
- *
- * @param folderPath The path where the folder should be created.
+ * @brief Deallocates a 2D board.
+ * @param BOARD Board to deallocate.
+ * @param rows Number of rows in the board.
  */
-void createFolder(const string& folderPath);
+void deallocateBoard(int** BOARD, const int& rows);
 
-/**
- * @brief Initializes the folder structure for Sudoku data storage.
- *
- * Creates a base `data/` directory along with `data/puzzles/` and
- * `data/solutions/` subdirectories for storing generated puzzles and their solutions.
- */
+void createFolder(const std::string& folderPath);
 void initDataFolder();
+std::string getFileName(const int& index, const std::string& destination, const std::string& prefix);
 
-/**
- * @brief Generates a formatted filename with zero-padded index.
- *
- * Constructs a filename using a zero-padded index, a destination path, and a prefix.
- * The filename follows the pattern: `destination/XXXXprefix.txt`, where `XXXX` is the
- * zero-padded index (e.g., `0001puzzle.txt`).
- *
- * @param index The numerical index to include in the filename.
- * @param destination The directory where the file will be saved.
- * @param prefix The filename prefix (e.g., "puzzle" or "solution").
- * @return A formatted string representing the complete file path.
- */
-string getFileName(const int& index, const string& destination, const string& prefix);
-
-#endif //SUDOKUPROJECT_UTILITY_H
+#endif
