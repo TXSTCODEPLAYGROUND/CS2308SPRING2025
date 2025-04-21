@@ -124,7 +124,12 @@ bool solveBoardEfficient(int** BOARD)
      * This function uses a recursive backtracking approach combined with the Minimum Remaining Value (MRV)
      * heuristic to optimize the solving process by always selecting the cell with the fewest valid options.
      */
-    auto [r, c, options] = findNextCell(BOARD);
+
+    std::tuple<int, int, std::vector<int>> result = findNextCell(BOARD);
+    int r = std::get<0>(result);
+    int c = std::get<1>(result);
+    std::vector<int> options = std::get<2>(result);
+
 
     // If no empty cells found
     if (r == -1) return true;
