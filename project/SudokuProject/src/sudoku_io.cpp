@@ -155,6 +155,7 @@ vector<string> getAllSudokuInFolder(const string& folderPath){
     for(int i = 0; i < sudokus.size(); i++)
         cout << setw(5) << i << setw(50) << sudokus[i] << endl;
     cout << setfill('-') << setw(55)<< "" << setfill(' ') <<endl;
+    sort(sudokus.begin(), sudokus.end());
     return sudokus;
 }
 
