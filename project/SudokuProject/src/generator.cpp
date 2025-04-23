@@ -285,8 +285,10 @@ int** generateBoard(const int& empty_boxes){
     fillBoardWithIndependentBox(BOARD);
     for(int i = 0; i < 9; i++) {
         for(int j = 0; j < 9; j++) {
-            for (int k = 0; k < 9; k++) {
-                if (BOARD[i][j] != 0) break;
+            if (BOARD[i][j] != 0) {
+                break;
+            } else {
+                solve(BOARD, false);
             }
         }
     }
