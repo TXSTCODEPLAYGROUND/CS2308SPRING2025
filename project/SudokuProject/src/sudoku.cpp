@@ -208,9 +208,6 @@ bool solve(int** board, const bool& efficient) {
     if (efficient == true) {
         return solveBoardEfficient(board);
     }
-    else {
-        return solveBoard(board, 0, 0);
-    }
 
     return solveBoard(board, 0, 0);  // Temporary: Always calls basic solver
 }
