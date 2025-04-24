@@ -133,7 +133,7 @@ tuple<int, int, int> findNextCell(int** BOARD) {
              * - Implement early exit if a cell with only one option is found.
              */
             if(BOARD[r][c] == 0){
-                for(int k = 0; k < 9; k++) {
+                for(int k = 1; k <= 9; k++) {
                     if (isValid(BOARD, r, c, k) == true){
                         currentMin++;
                     }
