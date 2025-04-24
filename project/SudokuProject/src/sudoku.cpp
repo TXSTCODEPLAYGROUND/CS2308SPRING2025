@@ -182,7 +182,9 @@ bool solveBoardEfficient(int** BOARD)
         for (int i = 1; i <= 9; i++) {
             if (isValid(BOARD, row, col, i)) {
                 BOARD[row][col] = i;
-                solveBoardEfficient(BOARD);
+                if (solveBoardEfficient(BOARD)) {
+                    return true;
+                }
             }
         }
 
