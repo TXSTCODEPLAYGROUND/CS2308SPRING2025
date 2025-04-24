@@ -118,7 +118,7 @@ tuple<int, int, int> findNextCell(int** BOARD) {
      *     }
      * @endcode
      */
-    int minOptions = INT_MAX;
+    int minOptions = -1;
     int bestRow = -1, bestCol = -1;
     int currentMin = 0;
 
