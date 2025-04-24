@@ -29,7 +29,6 @@
 #include "../include/sudoku_io.h"
 #include <random>
 #include <bitset>
-
 using namespace std;
 
 int** getEmptyBoard() {
@@ -57,6 +56,10 @@ std::vector<int> getShuffledVector() {
     // Dummy implementation:
     // Temporary static return for testing
     return {3, 1, 4, 2, 7, 6, 5, 9, 8};
+}
+    vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    shuffle(numbers.begin(), numbers.end(), g);
+    return numbers;
 }
 
 
@@ -147,6 +150,22 @@ void fillBoardWithIndependentBox(int** BOARD) {
         }
     }
 }
+/*void fillBox(int** BOARD, int startRow, int startCol) {
+    vector<int> nums = getShuffledVector();
+    int idx = 0;
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            BOARD[startRow + i][startCol + j] = nums[idx++];
+        }
+    }
+}
+
+void fillBoardWithIndependentBox(int** BOARD) {
+    // Fills the three diagonal boxes with shuffled 1-9
+    fillBox(BOARD, 0, 0); // Top-left
+    fillBox(BOARD, 3, 3); // Center
+    fillBox(BOARD, 6, 6); // Bottom-right
+}
 
 // Hint 3:  SolveBoard by using function provided in sudoku.h
             /* Example Solve Board
@@ -215,7 +234,22 @@ void deleteRandomItems(int** BOARD, const int& n) {
         }
     }
 }
+if (!BOARD || n < 1 || n > 81) return; // validate input
 
+std::set<int> deleted; // to store unique cell indices (0 to 80)
+srand(time(0));        // seed the RNG
+
+while (deleted.size() < n) {
+    int index = rand() % 81; // pick a random cell
+    int row = index / 9;
+    int col = index % 9;
+
+    if (BOARD[row][col] != 0) {
+        BOARD[row][col] = 0;
+        deleted.insert(index);
+    }
+} return BOARD;
+}
 
 // Finally return the board
 // Note you need add these function prototypes in generator.h files as well
@@ -251,5 +285,12 @@ int** generateBoard(const int& empty_boxes){
     BOARD[7] = new int[9] {0, 0, 9, 1, 8, 2, 0, 0, 3};
     BOARD[8] = new int[9] {0, 0, 0, 0, 6, 0, 1, 0, 0};
 
+    return BOARD;
+}
+int** generateBoard(const int& empty_boxes) {
+    int** BOARD = getEmptyBoard();
+    fillBoardWithIndependentBox(BOARD);
+    solve(BOARD);
+    deleteRandomItems(BOARD, empty_boxes);
     return BOARD;
 }
