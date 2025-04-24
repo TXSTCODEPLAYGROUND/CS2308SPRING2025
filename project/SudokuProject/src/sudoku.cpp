@@ -178,12 +178,14 @@ bool solveBoardEfficient(int** BOARD)
      * @return true if the board is successfully solved, false otherwise.
      */
     auto[row, col, options] = findNextCell(BOARD);
-    while (options > 0) {
-        for (int i = 1; i < 9; i++) {
+    if (options > 0) {
+        for (int i = 1; i <= 9; i++) {
             if (isValid(BOARD, row, col, i)) {
                 BOARD[row][col] = i;
+                solveBoardEfficient(BOARD);
             }
         }
+
     }
     
 
