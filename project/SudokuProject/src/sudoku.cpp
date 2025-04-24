@@ -189,7 +189,7 @@ bool solveBoardEfficient(int** BOARD)
                 }
             }
         }
-
+        return false;
     }
     
 
