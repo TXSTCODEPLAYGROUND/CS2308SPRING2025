@@ -184,6 +184,8 @@ bool solveBoardEfficient(int** BOARD)
                 BOARD[row][col] = i;
                 if (solveBoardEfficient(BOARD)) {
                     return true;
+                } else {
+                    BOARD[row][col] = 0;
                 }
             }
         }
