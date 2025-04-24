@@ -42,8 +42,6 @@ int main() {
      cout << "Generated Sudoku Puzzle:\n";
      printBoard(board);  // Assuming printBoard is defined in sudoku_io.h
 
-    deleteRandomItems(board, 5);
-
      // Test solving the puzzle
      if (solve(board)) {
          cout << "Solved Puzzle:\n";
