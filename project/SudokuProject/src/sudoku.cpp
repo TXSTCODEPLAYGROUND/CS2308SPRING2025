@@ -134,7 +134,7 @@ tuple<int, int, int> findNextCell(int** BOARD) {
              */
             if(BOARD[r][c] == 0){
                 for(int k = 0; k < 9; k++) {
-                    if ((isValid(BOARD, r, c, k)) == true){
+                    if (isValid(BOARD, r, c, k) == true){
                         currentMin++;
                     }
                 }
@@ -184,9 +184,8 @@ bool solveBoardEfficient(int** BOARD)
                 BOARD[row][col] = i;
                 if (solveBoardEfficient(BOARD)) {
                     return true;
-                } else {
-                    BOARD[row][col] = 0;
                 }
+                    BOARD[row][col] = 0;
             }
         }
         return false;
