@@ -189,8 +189,9 @@ bool solveBoardEfficient(int** BOARD)
             }
         }
         return false;
+
     }
-    
+    if (options == 0 && BOARD[row][col] == 0) { return false; }
 
 
     return true; //temporary
