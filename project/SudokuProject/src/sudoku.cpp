@@ -144,7 +144,7 @@ tuple<int, int, int> findNextCell(int** BOARD) {
                     bestCol = c;
                     return {bestRow, bestCol, minOptions};
                 }
-                else if (currentMin < minOptions) {
+                else if (currentMin < minOptions || minOptions == -1) {
                     minOptions = currentMin;
                     bestRow = r;
                     bestCol = c;
