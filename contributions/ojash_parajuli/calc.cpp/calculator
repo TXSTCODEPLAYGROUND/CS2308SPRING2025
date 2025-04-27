@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+
+int change(const string &calc)
+{
+    if (calc == "+") return 1;
+    if (calc == "-") return 2;
+    if (calc == "*") return 3;
+    if (calc == "/") return 4;
+    if (calc == "=") return 5;
+    return -1;
+}
+
+
+
+int main()
+{
+    float num1, num2, num;
+    string operation;
+
+    cout << "enter operations until = and the code stops\n";
+    cout << "enter first number: ";
+    cin >> num1;
+
+    num = num1;
+
+    while (true)
+    {
+        cout << "Enter operation (+, -, *, /, =): ";
+        cin >> operation;
+
+        if (operation == "=")
+        {
+            break;
+        }
+
+        cout << "Enter next number: ";
+        cin >> num2;
+
+        switch (change(operation))
+        {
+
+        case 1:
+            num=num+num2;
+            break;
+
+        case 2:
+            num=num-num2;
+            break;
+
+        case 3:
+            num=num*num2;
+            break;
+
+        case 4:
+
+            if (num2 == 0)
+            {
+                cout << "Error: Division by zero!" << endl;
+                continue;
+            }
+
+            num=num/num2;
+            break;
+
+        default:
+            cout << "Invalid operator!!!" << endl;
+            continue;
+        }
+
+        cout << "Result: " << num << endl;
+        num1 = num;
+    }
+    cout << "Final calculation: " << num;
+
+    return 0;
+}
